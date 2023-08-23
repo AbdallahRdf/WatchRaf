@@ -40,12 +40,24 @@ function App() {
 
   return (
     <div className="wrapper">
-      <nav className="w-50">
-        <ul className="list">
-          <li className="list-item"><a className="list-link logo" href="/">Pomoraf</a></li>
-          <li className="list-item"><Link className="list-link" to="/">Home</Link></li>
-          <li className="list-item"><Link className="list-link" to="/stats">Stats</Link></li>
-        </ul>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="/">Pomoraf</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <Link className="nav-link active" to="/">Home</Link>
+              </li>
+              <li class="nav-item">
+                <Link className="nav-link active" to="/stats">Stats</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </nav>
       <Routes>
         <Route path="/" element={
