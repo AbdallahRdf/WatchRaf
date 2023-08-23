@@ -6,12 +6,14 @@ export const Home = ({ timeRemaining, isRunning, stopTimer, resetTimer}) => {
     seconds = (seconds.length == 1) ? `0${seconds}` : seconds;
 
     return (
-        <>
-            <div>
+        <div>
+            <div className="timer">
                 {minutes}:{seconds}
             </div>
-            <button onClick={stopTimer}>{isRunning ? "||" : ">"}</button>
-            <button onClick={resetTimer}>Reset</button>
-        </>
+            <div className="btns">
+                <button onClick={stopTimer}>{isRunning ? "||" : ">"}</button>
+                <button onClick={resetTimer}>Reset</button>
+            </div>
+        </div>
     )
 }

@@ -4,9 +4,16 @@ import {Stats} from "./pages/Stats";
 import { useState, useEffect } from "react";
 
 function App() {
-  let initialTime = 2*60;
+  let initialTime = 25*60;
+  const timerStyle = {
+    pomodoro: "pomodoro",
+    shortBreak: "break",
+    longBreak: "long break"
+  }
+
   const [timeRemaining, setTimeRemaining] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
+  const [isPomodoro, setIsPomodoro] = useState(timerStyle.pomodoro);
 
   useEffect(()=>{
     let timer;
@@ -16,6 +23,7 @@ function App() {
         setTimeRemaining(timeRemaining - 1);
       }, 1000)
     }else if(timeRemaining===0){
+      setIsPomodoro(pre => !pre);
       setTimeRemaining(initialTime);
       setIsRunning(false)
     }
@@ -31,11 +39,12 @@ function App() {
   }
 
   return (
-    <>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/stats">Stats</Link></li>
+    <div className="wrapper">
+      <nav className="w-50">
+        <ul className="list">
+          <li className="list-item"><a className="list-link logo" href="/">Pomoraf</a></li>
+          <li className="list-item"><Link className="list-link" to="/">Home</Link></li>
+          <li className="list-item"><Link className="list-link" to="/stats">Stats</Link></li>
         </ul>
       </nav>
       <Routes>
@@ -44,7 +53,7 @@ function App() {
         } />
         <Route path="/stats" element={<Stats />} />
       </Routes>
-    </>
+    </div>
   )
 }
 
