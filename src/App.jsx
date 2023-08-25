@@ -2,18 +2,19 @@ import { Link, Route, Routes } from "react-router-dom"
 import {Home} from "./pages/Home";
 import {Stats} from "./pages/Stats";
 import { useReducer, useEffect } from "react";
+import Navbar from "./components/Navbar";
 
 export const timerStyle = {
   pomodoro: {
-    time: 25,
+    time: 25*60,
     title: "Pomodoro"
   },
   shortBreak: {
-    time: 5,
+    time: 5*60,
     title: "Short Break"
   },
   longBreak: {
-    time: 15,
+    time: 15*60,
     title: "Long Break"
   }
 }
@@ -41,24 +42,30 @@ export function App() {
           isRunning: false
         }
       case ACTIONS.tick: 
-        return {...state, timeRemaining: state.timeRemaining-1}
+        return {
+          ...state, 
+          timeRemaining: state.timeRemaining-1
+        }
       case timerStyle.pomodoro.title:
         return {
+          ...state,
           timeRemaining: timerStyle.pomodoro.time,
           isPomodoro: timerStyle.pomodoro.title,
-          isRunning: true
+          // isRunning: true
         }
       case timerStyle.shortBreak.title:
         return {
+          ...state,
           timeRemaining: timerStyle.shortBreak.time,
           isPomodoro: timerStyle.shortBreak.title,
-          isRunning: true
+          // isRunning: true
         }
       case timerStyle.longBreak.title:
         return {
+          ...state,
           timeRemaining: timerStyle.longBreak.time,
           isPomodoro: timerStyle.longBreak.title,
-          isRunning: true
+          // isRunning: true
         }
       default: throw new Error(`Unhandled action type: ${type}`);
     }
@@ -92,29 +99,11 @@ export function App() {
 
   const resetTimer = () => dispatch({ type: ACTIONS.reset });
 
-  const changeTimerType = (event) => dispatch({type: event.target.value})
+  const changeTimerType = (actionToBeDone) => dispatch({ type: actionToBeDone })
 
   return (
-    <div className="wrapper">
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid px-5">
-          <a className="navbar-brand logo" href="/">Pomoraf</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link active" to="/">Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/stats">Stats</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    <div>
+      <Navbar />
       <Routes>
         <Route path="/" element={
           <Home state={state} stopTimer={stopTimer} resetTimer={resetTimer} changeTimerType={changeTimerType}/>

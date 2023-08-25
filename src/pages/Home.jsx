@@ -1,31 +1,54 @@
-import { timerStyle } from '../App';
+import { timerStyle } from "../App";
 
-export const Home = ({ stopTimer, resetTimer, state, changeTimerType }) => {
+export const Home = ({ state, stopTimer, resetTimer, changeTimerType }) => {
+    const pomodoro = timerStyle.pomodoro.title;
+    const shortBreak = timerStyle.shortBreak.title;
+    const longBreak = timerStyle.longBreak.title;
 
     const timerFormatter = () => {
         let minutes = Math.floor(state.timeRemaining / 60).toString();
         let seconds = (state.timeRemaining % 60).toString();
-        minutes = (minutes.length == 1) ? `0${minutes}` : minutes;
-        seconds = (seconds.length == 1) ? `0${seconds}` : seconds;
-        return `${minutes}:${seconds}`
-    }
-    
+        minutes = minutes.length == 1 ? `0${minutes}` : minutes;
+        seconds = seconds.length == 1 ? `0${seconds}` : seconds;
+        return `${minutes}:${seconds}`;
+    };
+
     return (
-        <div className="card text-center">
-
-            <select name="timeStyle" value={state.isPomodoro} onChange={changeTimerType}>
-                <option value={timerStyle.pomodoro.title}>{timerStyle.pomodoro.title}</option>
-                <option value={timerStyle.shortBreak.title}>{timerStyle.shortBreak.title}</option>
-                <option value={timerStyle.longBreak.title}>{timerStyle.longBreak.title}</option>
-            </select>
-
-            <div className="fs-1">
-                {timerFormatter()}
+        <div className="timer">
+            
+            <div className="select-btns">
+                <button 
+                    className={state.isPomodoro===pomodoro ? "select-btn selected-btn" :"select-btn"} 
+                    onClick={() => changeTimerType(pomodoro)}
+                >
+                        {pomodoro}
+                </button>
+                <button 
+                    className={state.isPomodoro === shortBreak ? "select-btn selected-btn" : "select-btn"}
+                    onClick={() => changeTimerType(shortBreak)}
+                >
+                    {shortBreak}
+                </button>
+                <button 
+                    className={state.isPomodoro === longBreak ? "select-btn selected-btn" : "select-btn"}
+                    onClick={() => changeTimerType(longBreak)}
+                >
+                    {longBreak}
+                </button>
             </div>
-            <div className="d-grid gap-2 d-md-block">
-                <button className="btn btn-outline-dark fs-5" onClick={stopTimer}>{state.isRunning ? "||" : ">"}</button>
-                <button className="btn btn-outline-dark fs-5" onClick={resetTimer}>Reset</button>
+
+            <div className="cercle-parent">
+                <div className="cercle"></div>
+                <span className="clock">{timerFormatter()}</span>
+            </div>
+            <div className="d-grid gap-2 d-md-block pt-3">
+                <button className="btn btn-primary fs-5 mx-1" onClick={stopTimer}>
+                    {state.isRunning ? "pause" : "start"}
+                </button>
+                <button className="btn btn-primary fs-5 mx-1" onClick={resetTimer}>
+                    Reset
+                </button>
             </div>
         </div>
-    ) 
-}
+    );
+};
