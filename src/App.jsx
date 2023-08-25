@@ -1,7 +1,7 @@
 import { Link, Route, Routes } from "react-router-dom"
 import {Home} from "./pages/Home";
 import {Stats} from "./pages/Stats";
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 
 export const timerStyle = {
   pomodoro: {
@@ -20,54 +20,79 @@ export const timerStyle = {
 
 export function App() {
 
-  const [timeRemaining, setTimeRemaining] = useState(timerStyle.pomodoro.time);
-  const [isRunning, setIsRunning] = useState(false);
-  const [isPomodoro, setIsPomodoro] = useState(timerStyle.pomodoro.title);
+  const ACTIONS = {
+    stop: "stop",
+    tick: "tick",
+    reset: "reset"
+  }
+
+  const reducer = (state, action) => {
+    const {type} = action;
+    switch (type) {
+      case ACTIONS.stop: 
+        return {
+          ...state,
+          isRunning: !state.isRunning
+        }
+      case ACTIONS.reset: 
+        return {
+          timeRemaining: timerStyle.pomodoro.time,
+          isPomodoro: timerStyle.pomodoro.title,
+          isRunning: false
+        }
+      case ACTIONS.tick: 
+        return {...state, timeRemaining: state.timeRemaining-1}
+      case timerStyle.pomodoro.title:
+        return {
+          timeRemaining: timerStyle.pomodoro.time,
+          isPomodoro: timerStyle.pomodoro.title,
+          isRunning: true
+        }
+      case timerStyle.shortBreak.title:
+        return {
+          timeRemaining: timerStyle.shortBreak.time,
+          isPomodoro: timerStyle.shortBreak.title,
+          isRunning: true
+        }
+      case timerStyle.longBreak.title:
+        return {
+          timeRemaining: timerStyle.longBreak.time,
+          isPomodoro: timerStyle.longBreak.title,
+          isRunning: true
+        }
+      default: throw new Error(`Unhandled action type: ${type}`);
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, {
+    timeRemaining: timerStyle.pomodoro.time,
+    isRunning: false,
+    isPomodoro: timerStyle.pomodoro.title
+  })
 
   useEffect(()=>{
     let timer;
 
-    if(timeRemaining >= 0 && isRunning){
+    if(state.timeRemaining >= 0 && state.isRunning){
       timer = setTimeout(() => {
-        setTimeRemaining(timeRemaining - 1);
+        dispatch({type: ACTIONS.tick});
       }, 1000)
-    }else if(timeRemaining < 0){
-      if(isPomodoro===timerStyle.pomodoro.title){
-        setTimeRemaining(timerStyle.shortBreak.time);
-        setIsPomodoro(timerStyle.shortBreak.title);
+    }else if(state.timeRemaining < 0){
+      if(state.isPomodoro===timerStyle.pomodoro.title){
+        dispatch({type: timerStyle.shortBreak.title});
       }else{
-        resetTimer();
+        dispatch({type: ACTIONS.reset})
       }
     }
     
     return () => clearTimeout(timer);
-  }, [timeRemaining, isRunning]);
+  }, [state]);
 
-  const stopTimer = () => setIsRunning(pre => !pre);
+  const stopTimer = () => dispatch({ type: ACTIONS.stop });
 
-  const resetTimer = () => {
-    setIsRunning(false);
-    setTimeRemaining(timerStyle.pomodoro.time);
-    setIsPomodoro(timerStyle.pomodoro.title);
-  }
+  const resetTimer = () => dispatch({ type: ACTIONS.reset });
 
-  const reducer = (event)=>{
-    switch(event.target.value){
-      case timerStyle.pomodoro.title:
-        setTimeRemaining(timerStyle.pomodoro.time);
-        setIsPomodoro(timerStyle.pomodoro.title); 
-        break;
-      case timerStyle.shortBreak.title:
-        setTimeRemaining(timerStyle.shortBreak.time);
-        setIsPomodoro(timerStyle.shortBreak.title);
-        break;
-      case timerStyle.longBreak.title:
-        setTimeRemaining(timerStyle.longBreak.time);
-        setIsPomodoro(timerStyle.longBreak.title);
-        break;
-    }
-    setIsRunning(true);
-  }
+  const changeTimerType = (event) => dispatch({type: event.target.value})
 
   return (
     <div className="wrapper">
@@ -92,7 +117,7 @@ export function App() {
       </nav>
       <Routes>
         <Route path="/" element={
-          <Home timeRemaining={timeRemaining} isRunning={isRunning} stopTimer={stopTimer} resetTimer={resetTimer} reducer={reducer}/>
+          <Home state={state} stopTimer={stopTimer} resetTimer={resetTimer} changeTimerType={changeTimerType}/>
         } />
         <Route path="/stats" element={<Stats />} />
       </Routes>
