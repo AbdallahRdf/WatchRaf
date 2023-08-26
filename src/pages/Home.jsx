@@ -24,8 +24,8 @@ export const Home = () => {
             </div>
             <TimerCercle />
             <div className="control-btns">
-                <ControlBtn isResetBtn={true} />
                 <ControlBtn isResetBtn={false} />
+                <ControlBtn isResetBtn={true} />
             </div>
         </div>
     );

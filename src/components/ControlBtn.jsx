@@ -3,12 +3,12 @@ import MyContext from "../MyContext";
 
 export const ControlBtn = ({isResetBtn}) => {
 
-    const { state, stopTimer, isPomodoro } = useContext(MyContext);
+    const { state, stopTimer, isPomodoro, resetTimer } = useContext(MyContext);
 
     return (
         <button
             className={isPomodoro ? "btn btn-primary control-btn" : "btn btn-success control-btn"}
-            onClick={stopTimer}
+            onClick={isResetBtn ? resetTimer :  stopTimer}
         >
             {isResetBtn ? "Reset" : state.isRunning ? "pause" : "start"}
         </button>
