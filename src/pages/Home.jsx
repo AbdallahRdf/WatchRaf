@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import { TimerButton } from "../components/TimerButton";
 import { timerStyle } from "../hooks/usePomodoro";
+import MyContext from "../MyContext";
 
-export const Home = ({ state, stopTimer, resetTimer, changeTimerType }) => {
+export const Home = () => {
+
+    const { state, stopTimer, resetTimer } = useContext(MyContext);
 
     const pomodoro = timerStyle.pomodoro.title;
     const shortBreak = timerStyle.shortBreak.title;
@@ -26,9 +30,7 @@ export const Home = ({ state, stopTimer, resetTimer, changeTimerType }) => {
                 {timerBtnTitle.map(btn =>
                     <TimerButton 
                         key={btn} 
-                        changeTimerType={changeTimerType} 
                         pomo={btn} 
-                        state={state} 
                     />
                 )}
             </div>
