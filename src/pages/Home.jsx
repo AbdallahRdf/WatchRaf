@@ -10,8 +10,6 @@ export const Home = ({ state, stopTimer, resetTimer, changeTimerType }) => {
     const timerBtnTitle = [pomodoro, shortBreak, longBreak];
 
     const isPomodoro = timerStyle.pomodoro.title === state.isPomodoro;
-    const isShortBreak = timerStyle.shortBreak.title === state.isPomodoro;
-    const isLongBreak = timerStyle.longBreak.title === state.isPomodoro;
 
     const timerFormatter = () => {
         let minutes = Math.floor(state.timeRemaining / 60).toString();
@@ -21,43 +19,35 @@ export const Home = ({ state, stopTimer, resetTimer, changeTimerType }) => {
         return `${minutes}:${seconds}`;
     };
 
-    let cercleBorder, color, controlBtnsStyle;
-    if (isPomodoro) {
-        cercleBorder = {
-            border: "8px #0D6EFD40 solid"
-        }
-        color = {
-            color: "#0D6EFD"
-        }
-        controlBtnsStyle = "btn btn-primary control-btn";
-    }else {
-        cercleBorder = {
-            border: "8px #19875440 solid"
-        }
-        color = {
-            color: "#198754"
-        }
-        controlBtnsStyle = "btn btn-success control-btn";
-    }
-
     return (
         <div className="timer">
 
             <div className="select-btns">
                 {timerBtnTitle.map(btn =>
-                    <TimerButton key={btn} changeTimerType={changeTimerType} pomo={btn} state={state} />
+                    <TimerButton 
+                        key={btn} 
+                        changeTimerType={changeTimerType} 
+                        pomo={btn} 
+                        state={state} 
+                    />
                 )}
             </div>
 
             <div className="cercle-parent">
-                <div style={cercleBorder} className="cercle"></div>
-                <span style={color} className="clock">{timerFormatter()}</span>
+                <div className={isPomodoro ? "cercle pomo-cercle-border" : "cercle cercle-border"}></div>
+                <span className={isPomodoro ? "pomo-clock" : "clock"}>{timerFormatter()}</span>
             </div>
             <div className="control-btns">
-                <button className={controlBtnsStyle} onClick={stopTimer}>
+                <button 
+                    className={isPomodoro ? "btn btn-primary control-btn" : "btn btn-success control-btn"} 
+                    onClick={stopTimer}
+                >
                     {state.isRunning ? "pause" : "start"}
                 </button>
-                <button className={controlBtnsStyle} onClick={resetTimer}>
+                <button 
+                    className={isPomodoro ? "btn btn-primary control-btn" : "btn btn-success control-btn" } 
+                    onClick={resetTimer}
+                >
                     Reset
                 </button>
             </div>
