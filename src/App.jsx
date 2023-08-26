@@ -7,7 +7,7 @@ import MyContext from "./MyContext";
 
 export function App() {
   
-  const [state, dispatch] = usePomodoro();
+  const [state, dispatch, isPomodoro] = usePomodoro();
 
   const stopTimer = () => dispatch({ type: ACTIONS.stop });
 
@@ -17,6 +17,7 @@ export function App() {
 
   const store = {
     state,
+    isPomodoro,
     changeTimerType,
     stopTimer,
     resetTimer

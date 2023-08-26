@@ -112,5 +112,5 @@ export const usePomodoro = () => {
       return () => clearTimeout(timer);
     }, [state]);
 
-    return [state, dispatch];
+    return [state, dispatch, timerStyle.pomodoro.title===state.isPomodoro];
 }
