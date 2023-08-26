@@ -6,15 +6,15 @@ import Navbar from "./components/Navbar";
 
 export const timerStyle = {
   pomodoro: {
-    time: 25*60,
+    time: 25,
     title: "Pomodoro"
   },
   shortBreak: {
-    time: 5*60,
+    time: 5,
     title: "Short Break"
   },
   longBreak: {
-    time: 15*60,
+    time: 15,
     title: "Long Break"
   }
 }
@@ -27,8 +27,7 @@ export function App() {
     reset: "reset"
   }
 
-  const reducer = (state, action) => {
-    const {type} = action;
+  const reducer = (state, {type, payload}) => {
     switch (type) {
       case ACTIONS.stop: 
         return {
@@ -36,11 +35,27 @@ export function App() {
           isRunning: !state.isRunning
         }
       case ACTIONS.reset: 
-        return {
-          timeRemaining: timerStyle.pomodoro.time,
-          isPomodoro: timerStyle.pomodoro.title,
-          isRunning: false
+        let stateToReturn;
+        if(payload.backToPomo){
+          stateToReturn = {
+            timeRemaining: timerStyle.pomodoro.time,
+            isPomodoro: timerStyle.pomodoro.title,
+            isRunning: false
+          }
+        } else {
+          let time;
+          switch(state.isPomodoro){
+            case timerStyle.pomodoro.title: time = timerStyle.pomodoro.time; break;
+            case timerStyle.shortBreak.title: time = timerStyle.shortBreak.time; break;
+            case timerStyle.longBreak.title: time = timerStyle.longBreak.time; break;
+          }
+          stateToReturn = {
+            ...state,
+            timeRemaining: time,
+            isRunning: false
+          }
         }
+        return stateToReturn;
       case ACTIONS.tick: 
         return {
           ...state, 
@@ -48,24 +63,21 @@ export function App() {
         }
       case timerStyle.pomodoro.title:
         return {
-          ...state,
           timeRemaining: timerStyle.pomodoro.time,
           isPomodoro: timerStyle.pomodoro.title,
-          // isRunning: true
+          isRunning: payload.run
         }
       case timerStyle.shortBreak.title:
         return {
-          ...state,
           timeRemaining: timerStyle.shortBreak.time,
           isPomodoro: timerStyle.shortBreak.title,
-          // isRunning: true
+          isRunning: payload.run
         }
       case timerStyle.longBreak.title:
         return {
-          ...state,
           timeRemaining: timerStyle.longBreak.time,
           isPomodoro: timerStyle.longBreak.title,
-          // isRunning: true
+          isRunning: payload.run
         }
       default: throw new Error(`Unhandled action type: ${type}`);
     }
@@ -86,9 +98,9 @@ export function App() {
       }, 1000)
     }else if(state.timeRemaining < 0){
       if(state.isPomodoro===timerStyle.pomodoro.title){
-        dispatch({type: timerStyle.shortBreak.title});
+        dispatch({ type: timerStyle.shortBreak.title, payload: {run: true}});
       }else{
-        dispatch({type: ACTIONS.reset})
+        dispatch({type: ACTIONS.reset, payload: {backToPomo: true}})
       }
     }
     
@@ -97,9 +109,9 @@ export function App() {
 
   const stopTimer = () => dispatch({ type: ACTIONS.stop });
 
-  const resetTimer = () => dispatch({ type: ACTIONS.reset });
+  const resetTimer = () => dispatch({ type: ACTIONS.reset, payload: { backToPomo: false } });
 
-  const changeTimerType = (actionToBeDone) => dispatch({ type: actionToBeDone })
+  const changeTimerType = (actionToBeDone) => dispatch({ type: actionToBeDone, payload: {run: false}})
 
   return (
     <div>

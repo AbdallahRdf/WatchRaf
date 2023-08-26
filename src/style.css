@@ -5,8 +5,8 @@
 }
 
 body {
-    background-color: #212529;
-    color: white;
+    background-color: #fff;
+    /* color: white; */
 }
 
 /* .wrapper {
@@ -27,18 +27,18 @@ body {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: baseline;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 14px;
+    padding-bottom: 0px;
     margin: 0 auto;
     width: 50%;
-    border-bottom: 1px rgb(10, 10, 10) solid;
+    border-bottom: 1px rgba(10, 10, 10, 0.3) solid;
 }
 
 .logo {
     font-family: 'Orbitron', sans-serif;
     font-family: 'Pacifico', cursive;
     font-size: 1.9rem;
-    color: white;
+    color: black;
     padding: 0 20px;
     text-decoration: none;
 }
@@ -56,15 +56,14 @@ body {
 
 .list-link {
     text-decoration: none;
-    font-size: 1rem;
-    color: rgba(230, 230, 230, 0.845);
+    font-size: 1.1rem;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .list-link:hover {
-    color: white;
-    text-shadow: 0px 0px 1px white;
+    color: black
+    /* text-shadow: 0px 0px 1px black; */
 }
-
 
 .timer {
     width: 50%;
@@ -72,48 +71,71 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #111111;
-    border-radius: 4px;
+    /* background-color: #1111117f; */
+    border-radius: 8px;
     padding: 20px;
 }
 
 .select-btns {
     display: flex;
-    margin: 10px auto;
+    margin: 14px auto 22px auto;
 }
 
 .select-btn {
-    margin: 0 10px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    color: white;
+    /* margin: 0 10px; */
+    padding: 5px 20px;
+    /* border-radius: 8px; */
+    /* color: white; */
     background-color: transparent;
-    border: none
+    border: none;
+    font-size: 1.15rem;
+}
+
+.select-btn:hover {
+    border-radius: 8px 8px 0 0;
+    background-color: rgba(0, 0, 0, .06);
 }
 
 .selected-btn {
-    background-color: rgba(255, 255, 255, .2);
+    /* background-color: rgba(255, 255, 255, .2); */
+        border-bottom: 1px black solid;
 }
 
 .cercle-parent {
     position: relative;
-    height: 200px;
-    width: 200px;
+    width: 300px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
+    /* border: red 2px solid; */
 }
 
 .cercle {
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 4px rgb(22, 38, 111) solid;
     border-radius: 50%;  
+    /* background-color: #F7FAFF; */
 }
 
 .clock {
-    font-size: 4rem;
+    font-size: 5rem;
+    /* color: black */
+}
+
+.control-btns {
+    /* border: 1px white solid; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.control-btn {
+    width: 20%;
+    margin: 20px 5px;
+    font-size: 1.3rem;
+    border-radius: 50px;
 }
 
 /* .btns {
