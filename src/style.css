@@ -71,13 +71,21 @@ body {
     font-size: 1.15rem;
 }
 
+.blue-color {
+    color: #0D6EFD;
+}
+
+.green-color {
+    color: #198754;
+}
+
 .select-btn:hover {
     border-radius: 8px 8px 0 0;
     background-color: rgba(0, 0, 0, .06);
 }
 
 .selected-btn {
-    border-bottom: 1px black solid;
+    border-bottom: 1px black solid; 
 }
 
 .cercle-parent {
@@ -97,7 +105,7 @@ body {
 }
 
 .pomo-cercle-border {
-    border: 8px #0D6EFD40 solid
+    border: 8px #0D6EFD40 solid;
 }
 
 .cercle-border {

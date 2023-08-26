@@ -6,6 +6,9 @@ export const TimerCercle = () => {
     const {state, isPomodoro} = useContext(MyContext);
 
     const timerFormatter = () => {
+        if(state.timeRemaining<0){
+            return '00:00';
+        }
         let minutes = Math.floor(state.timeRemaining / 60).toString();
         let seconds = (state.timeRemaining % 60).toString();
         minutes = minutes.length == 1 ? `0${minutes}` : minutes;
