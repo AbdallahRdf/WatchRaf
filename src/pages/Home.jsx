@@ -1,9 +1,13 @@
-import { timerStyle } from "../App";
+import { TimerButton } from "../components/TimerButton";
+import { timerStyle } from "../hooks/usePomodoro";
 
 export const Home = ({ state, stopTimer, resetTimer, changeTimerType }) => {
+
     const pomodoro = timerStyle.pomodoro.title;
     const shortBreak = timerStyle.shortBreak.title;
     const longBreak = timerStyle.longBreak.title;
+
+    const timerBtnTitle = [pomodoro, shortBreak, longBreak];
 
     const isPomodoro = timerStyle.pomodoro.title === state.isPomodoro;
     const isShortBreak = timerStyle.shortBreak.title === state.isPomodoro;
@@ -17,42 +21,36 @@ export const Home = ({ state, stopTimer, resetTimer, changeTimerType }) => {
         return `${minutes}:${seconds}`;
     };
 
-    const PomoStyle = {
-        border: isPomodoro ? "8px #0D6EFD40 solid" : "8px #19875440 solid",
+    let cercleBorder, color, controlBtnsStyle;
+    if (isPomodoro) {
+        cercleBorder = {
+            border: "8px #0D6EFD40 solid"
+        }
+        color = {
+            color: "#0D6EFD"
+        }
+        controlBtnsStyle = "btn btn-primary control-btn";
+    }else {
+        cercleBorder = {
+            border: "8px #19875440 solid"
+        }
+        color = {
+            color: "#198754"
+        }
+        controlBtnsStyle = "btn btn-success control-btn";
     }
-
-    const color = {
-        color: isPomodoro ? "#0D6EFD" : "#198754",
-    }
-
-    const controlBtnsStyle = isPomodoro ? "btn btn-primary control-btn" : "btn btn-success control-btn";
 
     return (
         <div className="timer">
-            
+
             <div className="select-btns">
-                <button 
-                    className={isPomodoro ? "select-btn selected-btn" :"select-btn"} 
-                    onClick={() => changeTimerType(pomodoro)}
-                >
-                        {pomodoro}
-                </button>
-                <button 
-                    className={isShortBreak ? "select-btn selected-btn" : "select-btn"}
-                    onClick={() => changeTimerType(shortBreak)}
-                >
-                    {shortBreak}
-                </button>
-                <button 
-                    className={isLongBreak ? "select-btn selected-btn" : "select-btn"}
-                    onClick={() => changeTimerType(longBreak)}
-                >
-                    {longBreak}
-                </button>
+                {timerBtnTitle.map(btn =>
+                    <TimerButton key={btn} changeTimerType={changeTimerType} pomo={btn} state={state} />
+                )}
             </div>
 
             <div className="cercle-parent">
-                <div style={PomoStyle} className="cercle"></div>
+                <div style={cercleBorder} className="cercle"></div>
                 <span style={color} className="clock">{timerFormatter()}</span>
             </div>
             <div className="control-btns">
