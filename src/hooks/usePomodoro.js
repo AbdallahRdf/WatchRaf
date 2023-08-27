@@ -2,15 +2,15 @@ import {useReducer, useEffect} from "react";
 
 export const timerStyle = {
   pomodoro: {
-    time: 25*60,
+    time: 25,
     title: "Pomodoro",
   },
   shortBreak: {
-    time: 5*60,
+    time: 5,
     title: "Short Break",
   },
   longBreak: {
-    time: 15*60,
+    time: 15,
     title: "Long Break",
   },
 };

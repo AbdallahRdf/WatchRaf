@@ -9,19 +9,12 @@ export const Home = () => {
     const shortBreak = timerStyle.shortBreak.title;
     const longBreak = timerStyle.longBreak.title;
 
-    const timerBtnTitle = [pomodoro, shortBreak, longBreak];
+    const timerButtons = [pomodoro, shortBreak, longBreak].map(btn => <TimerButton key={btn} pomo={btn} />);
 
     return (
         <div className="timer">
 
-            <div className="select-btns">
-                {timerBtnTitle.map(btn =>
-                    <TimerButton 
-                        key={btn} 
-                        pomo={btn} 
-                    />
-                )}
-            </div>
+            <div className="select-btns">{timerButtons}</div>
             <TimerCercle />
             <div className="control-btns">
                 <ControlBtn isResetBtn={false} />

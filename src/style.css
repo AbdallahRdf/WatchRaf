@@ -134,3 +134,7 @@ body {
     font-size: 1.3rem;
     border-radius: 50px;
 }
+
+.audio-hidden {
+    display: none;
+}
