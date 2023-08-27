@@ -13,7 +13,6 @@ export const Home = () => {
 
     return (
         <div className="timer">
-
             <div className="select-btns">{timerButtons}</div>
             <TimerCercle />
             <div className="control-btns">
