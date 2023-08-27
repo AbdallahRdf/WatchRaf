@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import MyContext from "../MyContext";
 import { useTimeFormatter } from "../hooks/useTimeFormatter";
 import pomoTimerSoundFile from "../audio/microwave-timer-sound.mp3";

@@ -4,6 +4,7 @@ import {Stats} from "./pages/Stats";
 import Navbar from "./components/Navbar";
 import { usePomodoro, ACTIONS } from "./hooks/usePomodoro";
 import MyContext from "./MyContext";
+import { useEffect } from "react";
 
 export function App() {
   
@@ -22,6 +23,20 @@ export function App() {
     stopTimer,
     resetTimer
   }
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if(state.isRunning){
+        event.preventDefault();
+        event.returnValue = "are you sure you want to refresh the page ?";
+      }
+    }
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+
+  }, [state.isRunning])
 
   return (
     <>
