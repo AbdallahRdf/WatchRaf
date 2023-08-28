@@ -124,12 +124,10 @@ export const usePomodoro = () => {
 
       if (state.timeRemaining >= 0 && state.isRunning) {
         timer = setTimeout(() => {
-          console.log(state);
           dispatch({ type: ACTIONS.tick });
         }, 1000);
       } else if (state.timeRemaining < 0) {
         if (state.isPomodoro === pomodoro.title) {
-          console.log(state);
           dispatch({type: ACTIONS.incrementPomoCount});
           dispatch({ type: shortBreak.title, payload: { shouldRun: true } });
         } else {

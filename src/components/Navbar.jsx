@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
+    const location = useLocation();
+
     return (
         <nav className="nav">
             <div>
@@ -8,10 +10,10 @@ const Navbar = () => {
             </div>
             <ul className="list">
                 <li className="list-item">
-                    <Link className="list-link" to="/">Home</Link>
+                    <Link to="/" className={location.pathname === "/" ? "list-link active-link" : "list-link"}>Home</Link>
                 </li>
                 <li className="list-item">
-                    <Link className="list-link" to="/stats">stats</Link>
+                    <Link to="/stats" className={location.pathname === "/stats" ? "list-link active-link" : "list-link"}>stats</Link>
                 </li>
             </ul>
         </nav>
