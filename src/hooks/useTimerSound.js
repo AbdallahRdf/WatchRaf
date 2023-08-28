@@ -1,8 +1,6 @@
-import { useEffect, useContext } from "react";
-import MyContext from "../MyContext";
+import { useEffect } from "react";
 
-export const useTimerSound = () => {
-    const {state, isPomodoro} = useContext(MyContext);
+export const useTimerSound = (state, isPomodoro) => {
     useEffect(() => {
       const id = isPomodoro ? "pomoTimerSound" : "breakTimerSound";
       const timerSound = document.getElementById(id);

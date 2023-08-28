@@ -5,6 +5,10 @@ import Navbar from "./components/Navbar";
 import { usePomodoro, ACTIONS } from "./hooks/usePomodoro";
 import MyContext from "./MyContext";
 import { useEffect } from "react";
+import { useTimerSound } from "./hooks/useTimerSound";
+
+import pomoTimerSoundFile from "./audio/microwave-timer-sound.mp3";
+import breakTimeSoundFile from "./audio/bicycle-bell.mp3";
 
 export function App() {
   
@@ -31,15 +35,17 @@ export function App() {
         event.returnValue = "are you sure you want to refresh the page ?";
       }
     }
-
     window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [state.isRunning]);
 
-  }, [state.isRunning])
+  useTimerSound(state, isPomodoro);
 
   return (
     <>
+      <audio id="pomoTimerSound" className="audio-hidden" src={pomoTimerSoundFile} preload="auto"></audio>
+      <audio id="breakTimerSound" className="audio-hidden" src={breakTimeSoundFile} preload="auto"></audio>
       <Navbar />
       <MyContext.Provider value={store}>
         <Routes>
