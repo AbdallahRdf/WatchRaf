@@ -45,8 +45,8 @@ export function App() {
 
   return (
     <>
-      <audio id="pomoTimerSound" className="audio-hidden" src={pomoTimerSoundFile} preload="auto"></audio>
-      <audio id="breakTimerSound" className="audio-hidden" src={breakTimeSoundFile} preload="auto"></audio>
+      <audio id="pomoTimerSound" className="d-hidden" src={pomoTimerSoundFile} preload="auto"></audio>
+      <audio id="breakTimerSound" className="d-hidden" src={breakTimeSoundFile} preload="auto"></audio>
       <Navbar />
       <MyContext.Provider value={store}>
         <Routes>
