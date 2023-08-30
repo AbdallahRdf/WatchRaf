@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import MyContext from "../MyContext";
+import MyContext from "../context/MyContext";
 import { useTimeFormatter } from "../hooks/useTimeFormatter";
 
 export const TimerCercle = () => {

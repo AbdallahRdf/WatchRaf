@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom"
 import {Home} from "./pages/Home";
-import {Stats} from "./pages/Stats";
+import { Stats } from "./pages/Stats";
+import { Signup } from "./pages/Signup";
 import Navbar from "./components/Navbar";
 import { usePomodoro, ACTIONS } from "./hooks/usePomodoro";
-import MyContext from "./MyContext";
+import MyContext from "./context/MyContext";
 import { useEffect } from "react";
 import { useTimerSound } from "./hooks/useTimerSound";
 
@@ -51,6 +52,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/stats" element={<Stats />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </MyContext.Provider>
     </>

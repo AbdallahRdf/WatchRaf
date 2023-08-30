@@ -3,6 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
     const location = useLocation();
 
+    if (location.pathname === '/signup') {
+        return null; // Don't render the navbar on the signup page
+    }
+
     return (
         <nav className="nav">
             <div>
@@ -13,7 +17,10 @@ const Navbar = () => {
                     <Link to="/" className={location.pathname === "/" ? "list-link active-link" : "list-link"}>Home</Link>
                 </li>
                 <li className="list-item">
-                    <Link to="/stats" className={location.pathname === "/stats" ? "list-link active-link" : "list-link"}>stats</Link>
+                    <Link to="/stats" className={location.pathname === "/stats" ? "list-link active-link" : "list-link"}>Stats</Link>
+                </li>
+                <li className="list-item">
+                    <Link to="/signup" className={location.pathname === "/signup" ? "list-link active-link" : "list-link"}>Sign-up</Link>
                 </li>
             </ul>
         </nav>

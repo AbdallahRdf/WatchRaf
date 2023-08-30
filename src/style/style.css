@@ -28,6 +28,15 @@ body {
     text-decoration: none;
 }
 
+.logo-large {
+    font-family: 'Orbitron', sans-serif;
+    font-family: 'Pacifico', cursive;
+    font-size: 2.8rem;
+    color: black;
+    padding: 0 20px;
+    text-decoration: none;
+}
+
 .list {
     display: flex;
     justify-content: end;
@@ -146,4 +155,103 @@ body {
 
 .audio-hidden {
     display: none;
+}
+
+
+
+.grey-signup-text {
+    font-weight: bold;
+    color: #00000095;
+    text-align: center;
+    margin: 25px auto;
+    font-size: 1.1rem;
+}
+
+.wrapper {
+    width: 25%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.372);
+}
+
+.or-line {
+    color: #00000044;
+    margin: auto 10px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+.or-line::before {
+    content: " ";
+    background-color: #00000044;
+    width: 45%;
+    height: 1px;
+    position: absolute;
+    left: 0;
+    top: 50%
+}
+
+.or-line::after {
+    content: " ";
+    background-color: #00000044;
+    width: 45%;
+    height: 1px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+
+.google-signup-btn {
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 6px;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.51);
+    border: none;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2), 0px 0px 2px rgba(0, 0, 0, 0.372);
+    position: relative;
+}
+
+.google-logo {
+    width: 20px;
+    margin-right: 4px;
+    position: absolute;
+    top: 22%;
+    left: 20%
+}
+
+.signup-btn {
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    border-radius: 6px;
+    background-color: #373737;
+    color: white;
+    border: none;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2), 0px 0px 2px rgba(0, 0, 0, 0.372);
+    position: relative;
+}
+
+.signup-btn:hover {
+    background-color: black;
+}
+
+input::placeholder {
+    color: #00000050 !important;
 }
