@@ -7,7 +7,8 @@ export const useAuthUserState = () => {
     const [shouldRender, setShouldRender] = useState(false);
 
     useEffect(() => {
-      if (user !== null && loading === false) {
+      if (!loading) {
+        console.log("in: ", user, loading);
         setShouldRender(true);
       }
     }, [user, loading]);

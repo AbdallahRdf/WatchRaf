@@ -74,7 +74,7 @@ export const Signup = () => {
                 <div className="w-100 mb-3 mt-3">
                     <button className="google-signup-btn" onClick={loginWithGoogle}>
                         <img className="google-logo" src={googleImg} alt="google logo" />
-                        Login with Google
+                        Signup with Google
                     </button>
                 </div>
                 <p className="or-line" >or</p>
