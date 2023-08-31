@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home";
 import { Stats } from "./pages/Stats";
 import { Signup } from "./pages/Signup";
+import { Login } from "./pages/Login";
 //* components
 import Navbar from "./components/Navbar";
 import Spinner from "./components/Spinner"
@@ -70,6 +71,7 @@ export function App() {
               <Route path="/" element={<Home />} />
               <Route path="/stats" element={<Stats />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
             </Routes>
           </MyContext.Provider>
         </>

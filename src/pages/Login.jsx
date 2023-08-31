@@ -1,27 +1,27 @@
-import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth"
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth"
 import { auth, googleAuth } from "../firebase/firebase";
 import { useNavigate, Link } from "react-router-dom";
 import googleImg from '../img/google-logo.png';
 
 import * as yup from "yup";
-import {yupResolver} from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
-export const Signup = () => {
+export const Login = () => {
 
-    const [signupError, setSignupError] = useState(false);
+    const [loginError, setLoginError] = useState(false);
 
     const navigate = useNavigate();
 
-    const signupWithGoogle = async () => {
+    const loginWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleAuth);
-            setSignupError(false);
+            setLoginError(false);
             navigate('/');
         } catch (error) {
-            console.error("Signup error: ", error.message);
-            setSignupError(true);
+            console.error("logging in error: ", error.message);
+            setLoginError(true);
         }
     }
 
@@ -30,28 +30,24 @@ export const Signup = () => {
         email: yup.string().email("Invalid email").required("Email is required"),
         password: yup
             .string()
-            .min(6, "Password must be at least 6 characters")
             .required("Password is required"),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref('password'), null], 'Password must match')
-    });
+        });
 
     const { register, handleSubmit, formState: { errors }, getValues } = useForm({
         resolver: yupResolver(schema)
     })
 
     const createUser = async () => {
-        const {email, password} = getValues();
+        const { email, password } = getValues();
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             console.log("User signed up: ", user);
-            setSignupError(false);
+            setLoginError(false);
             navigate("/");
-        } catch(error) {
-            console.error("Signup error: ", error.message);
-            setSignupError(true);
+        } catch (error) {
+            console.error("Logging in error: ", error.message);
+            setLoginError(true);
         }
     }
 
@@ -60,21 +56,21 @@ export const Signup = () => {
         <div className="wrapper">
             <div>
                 <a href="/" className="logo-large">Pomoraf</a>
-                <p className="grey-signup-text">Create Account</p>
+                <p className="grey-signup-text">Login</p>
             </div>
             <div className="form-wrapper">
-                {signupError &&
+                {loginError &&
                     <div className="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
                         <div>
-                            An error occurred while signing up. Please try again later.
+                            An error occurred while Logging in. Please try again later.
                         </div>
                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 }
                 <div className="w-100 mb-3 mt-3">
-                    <button className="google-signup-btn" onClick={signupWithGoogle}>
+                    <button className="google-signup-btn" onClick={loginWithGoogle}>
                         <img className="google-logo" src={googleImg} alt="google logo" />
-                        Signup with Google
+                        Login with Google
                     </button>
                 </div>
                 <p className="or-line" >or</p>
@@ -100,22 +96,12 @@ export const Signup = () => {
                         />
                         <small className="text-danger">{errors.password?.message}</small>
                     </div>
-                    <div className="w-100">
-                        <label className="form-label text-body-tertiary" htmlFor="confirmPassword">Confirm your password</label>
-                        <input
-                            className="form-control mb-3"
-                            type="password"
-                            id="confirmPassword"
-                            {...register('confirmPassword')}
-                        />
-                        <small className="text-danger">{errors.confirmPassword?.message}</small>
-                    </div>
-                    <input className="signup-btn" type="submit" value="Sign up" />
+                    <input className="signup-btn" type="submit" value="Log in with email" />
                 </form>
             </div>
             <div className="mt-4 w-100 text-center">
-                <p className="m-0 text-dark-emphasis">Already have an account?</p>
-                <Link to="/login" className="text-black-50 fw-semibold" >Log in</Link>
+                <p className="m-0 text-dark-emphasis">Do not have an account?</p>
+                <Link to="/signup" className="text-black-50 fw-semibold" >Create account</Link>
             </div>
         </div>
     )

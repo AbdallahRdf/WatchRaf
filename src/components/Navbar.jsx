@@ -10,7 +10,7 @@ const Navbar = ({user}) => {
 
     const location = useLocation();
 
-    if (location.pathname === '/signup') {
+    if (location.pathname === '/signup' || location.pathname === '/login') {
         return null; // Don't render the navbar on the signup page
     }
 
