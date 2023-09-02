@@ -9,13 +9,13 @@ import { db } from "../firebase/firebase";
 export const BarChart = ({user}) => {
     const {state} = useContext(MyContext);
 
-    const chartRef = collection(db, "chart");
-    const chartDocs = doc(chartRef);
-    const getChartDocs = async ()=>{
-        const data = await getDocs(chartDocs);
-        console.log(data)
-    }
-    getChartDocs();
+    // const chartRef = collection(db, "chart");
+    // const chartDocs = doc(chartRef);
+    // const getChartDocs = async ()=>{
+    //     const data = await getDocs(chartDocs);
+    //     console.log(data)
+    // }
+    // getChartDocs();
 
     const pomodoroCounts = state.pomosCount*25;
     const breaksCount = (state.lBreakCount * 15 + state.sBreakCount * 5);
