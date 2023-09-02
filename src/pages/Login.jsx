@@ -37,7 +37,7 @@ export const Login = () => {
         resolver: yupResolver(schema)
     })
 
-    const createUser = async () => {
+    const loginUser = async () => {
         const { email, password } = getValues();
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -74,7 +74,7 @@ export const Login = () => {
                     </button>
                 </div>
                 <p className="or-line" >or</p>
-                <form onSubmit={handleSubmit(createUser)} className="w-100">
+                <form onSubmit={handleSubmit(loginUser)} className="w-100">
                     <div className="w-100 mt-3">
                         <label className="form-label text-body-tertiary" htmlFor="email">Email</label>
                         <input
