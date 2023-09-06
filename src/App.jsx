@@ -147,7 +147,9 @@ export function App() {
     setBreaks,
     user,
     pomoData,
-    breakData
+    breakData,
+    setBreakData,
+    setPomoData
   }
 
   //* prevent the page from being refreshed or closed while the timer is running
@@ -176,8 +178,8 @@ export function App() {
         <>
           <audio id="pomoTimerSound" className="d-hidden" src={pomoTimerSoundFile} preload="auto"></audio>
           <audio id="breakTimerSound" className="d-hidden" src={breakTimeSoundFile} preload="auto"></audio>
-          <Navbar user={user} />
           <MyContext.Provider value={store}>
+            <Navbar user={user} />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/stats" element={<Stats />} />

@@ -1,10 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
 import { auth } from "../firebase/firebase";
 import { signOut } from "firebase/auth";
+import { useContext } from "react";
+import MyContext from "../context/MyContext";
 
 const Navbar = ({user}) => {
+
+    const { setBreakData , setPomoData } = useContext(MyContext);
     
     const signUserOut = () => {
+        setPomoData([]);
+        setBreakData([]);
         signOut(auth);
     }
 
