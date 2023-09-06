@@ -20,8 +20,9 @@ export const ACTIONS = {
   tick: "tick",
   reset: "reset",
   incrementPomoCount: "increment pomodoro count",
-  incrementSBreakCount: "increment Short Break Count",
-  incrementLBreakCount: "increment Long Break Count",
+  incrementBreakCount: "increment Break Count",
+  setPomosCount: "set pomos Count",
+  setBreakCount: "set Break Count"
 };
 
 export const usePomodoro = () => {
@@ -93,17 +94,23 @@ export const usePomodoro = () => {
         case ACTIONS.incrementPomoCount:
           return {
             ...state,
-            pomosCount: state.pomosCount + 1,
+            pomosCount: state.pomosCount + 25,
           };
-        case ACTIONS.incrementSBreakCount:
+        case ACTIONS.incrementBreakCount:
+          const timeToAdd = state.isPomodoro == shortBreak.title ? 5 : 15;
           return {
             ...state,
-            sBreakCount: state.sBreakCount + 1,
+            breakCount: state.breakCount + timeToAdd,
           };
-        case ACTIONS.incrementLBreakCount:
+        case ACTIONS.setPomosCount:
           return {
             ...state,
-            lBreakCount: state.lBreakCount + 1,
+            pomosCount: payload.count,
+          };
+        case ACTIONS.setBreakCount:
+          return {
+            ...state,
+            breakCount: payload.count,
           };
         default:
           throw new Error(`Unhandled action type: ${type}`);
@@ -115,8 +122,7 @@ export const usePomodoro = () => {
       isRunning: false,
       isPomodoro: pomodoro.title,
       pomosCount: 0,
-      sBreakCount: 0,
-      lBreakCount: 0,
+      breakCount: 0,
     });
 
     useEffect(() => {
@@ -127,15 +133,11 @@ export const usePomodoro = () => {
           dispatch({ type: ACTIONS.tick });
         }, 1000);
       } else if (state.timeRemaining < 0) {
-        if (state.isPomodoro === pomodoro.title) {
-          dispatch({type: ACTIONS.incrementPomoCount});
+        if (pomodoro.title === state.isPomodoro) {
+          dispatch({ type: ACTIONS.incrementPomoCount });
           dispatch({ type: shortBreak.title, payload: { shouldRun: true } });
         } else {
-          if(state.isPomodoro === shortBreak.title){
-            dispatch({ type: ACTIONS.incrementSBreakCount });
-          }else{
-            dispatch({ type: ACTIONS.incrementLBreakCount });
-          }
+          dispatch({ type: ACTIONS.incrementBreakCount });
           dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
         }
       }
@@ -143,5 +145,5 @@ export const usePomodoro = () => {
       return () => clearTimeout(timer);
     }, [state]);
 
-    return [state, dispatch, timerStyle.pomodoro.title===state.isPomodoro];
+    return [state, dispatch, pomodoro.title === state.isPomodoro];
 }

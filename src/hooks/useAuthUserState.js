@@ -8,7 +8,6 @@ export const useAuthUserState = () => {
 
     useEffect(() => {
       if (!loading) {
-        console.log("in: ", user, loading);
         setShouldRender(true);
       }
     }, [user, loading]);

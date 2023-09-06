@@ -257,3 +257,47 @@ body {
 input::placeholder {
     color: #00000050 !important;
 }
+
+.week-control-btn {
+    border: 1px solid #00000044;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 1.1rem;
+    align-self: flex-end;
+    margin-bottom: 20px;
+}
+
+.week-btn {
+    padding: 5px 10px;
+    color: #00000099;
+}
+
+.left-btn {
+    padding: 5px 14px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-right: 1px solid #00000044;
+    font-weight: bold;
+    color: #00000099
+}
+
+.right-btn {
+    padding: 5px 14px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-left: 1px solid #00000044;
+    font-weight: bold;
+    color: #00000099
+}
+
+.right-btn:hover,
+.left-btn:hover {
+    background-color: #00000010;
+}
+
+.right-btn:active,
+.left-btn:active {
+    background-color: #00000020;
+}
