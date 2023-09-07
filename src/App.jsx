@@ -18,18 +18,19 @@ import { usePomodoro, ACTIONS } from "./hooks/usePomodoro";
 import { useTimerSound } from "./hooks/useTimerSound";
 import { useAuthUserState } from "./hooks/useAuthUserState";
 import { useLoading } from './hooks/useLoading';
-import { useInitializeDataFromDb } from "./hooks/useInitializeDataFromDb";
 //* firebase
-import { auth, db } from "./firebase/firebase";
+import { db } from "./firebase/firebase";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 export function App() {
+  //* for the chart data of the user in the last 28 days
   const [pomoData, setPomoData] = useState([]);
   const [breakData, setBreakData] = useState([]);
 
+  //* it returns the user object, the 'shouldRender' specifies if the user is still loading or not
   const [user, shouldRender] = useAuthUserState();
 
+  //* creates the timer state
   const [state, dispatch, isPomodoro] = usePomodoro();
 
   const stopTimer = () => dispatch({ type: ACTIONS.stop });
@@ -46,9 +47,7 @@ export function App() {
 
   const setBreaks = (count) => dispatch({ type: ACTIONS.setBreakCount, payload: { count } });
 
-  // const [pomoData, breakData] = useInitializeDataFromDb(state, user, setBreaks, setPomos);
-  // console.log(pomoData);
-
+  //* fetches the data if the user is available
   useEffect(() => {
     const pomoDataFromDB = [];
     const breakDataFromDB = [];
@@ -80,7 +79,7 @@ export function App() {
 
       const data = await getDocs(queryRef);
       const formattedData = data.docs.map((doc) => {
-        const dataArr = { ...doc.data() };
+        const dataArr = doc.data();
         pomoDataFromDB.push({
           pomosCount: dataArr.pomodoroCount,
           date: dataArr.timestamp.toDate(),
@@ -167,6 +166,7 @@ export function App() {
 
   useTimerSound(state, isPomodoro);
 
+  //* is DOM Content loaded 
   const [isLoading] = useLoading();
 
   return (
