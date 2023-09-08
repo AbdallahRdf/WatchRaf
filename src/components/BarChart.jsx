@@ -11,14 +11,18 @@ export const BarChart = ({ dates, pomoData, breakData, maxValue }) => {
             {
                 label: 'Pomodoro Count',
                 data: pomoData,
-                backgroundColor: ['#43B0F1'],
+                backgroundColor: ['#43B0F190'],
+                borderWidth: 1,
+                borderColor: '#43B0F1'
             },
             {
                 label: 'Breaks Count',
                 data: breakData,
-                backgroundColor: ['#45AD79'],
-            }
-        ]
+                backgroundColor: ['#45AD7990'],
+                borderWidth: 1,
+                borderColor: '#45AD79'
+            },
+        ],
     }
 
     const options = {

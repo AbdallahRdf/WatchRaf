@@ -1,14 +1,21 @@
 import { BarChart } from "../components/BarChart";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MyContext from "../context/MyContext";
 
 export const Stats = ()=>{
   const { user, pomoData, breakData } = useContext(MyContext);
-  const [ chartPage, setChartPage ] = useState(3);
-
+  console.log((pomoData.length));
   const dates = pomoData.length > 0 ? pomoData.map(element => element.date) : [];
   const data1 = pomoData.length > 0 ? pomoData.map(element => element.pomosCount) : [];
   const data2 = breakData.length > 0 ? breakData.map(element => element.breaksCount) : [];
+  
+  const [chartPage, setChartPage] = useState(0);
+
+  useEffect(()=>{
+    if(dates.length > 0){
+      setChartPage((pomoData.length/7)-1);
+    }
+  }, [pomoData])
 
   const pomoDataFourWeeks = [];
   const breakDataFourWeeks = [];
@@ -19,10 +26,9 @@ export const Stats = ()=>{
     pomoDataFourWeeks.push(data1.slice(i, i + 7));
     breakDataFourWeeks.push(data2.slice(i, i + 7));
   }
-  // console.log(datesFourWeeks, pomoDataFourWeeks);
 
-  const maxPomo = max(data1);
-  const maxBreak = max(data2);
+  const maxPomo = max(pomoDataFourWeeks[chartPage]);
+  const maxBreak = max(breakDataFourWeeks[chartPage]);
   const maxValue = maxPomo > maxBreak ? maxPomo : maxBreak;
   function max(arr) {
     const max = arr.reduce((max, value) => {
@@ -32,7 +38,7 @@ export const Stats = ()=>{
   }
 
   const handleNextWeek = () => {
-    if(chartPage < 3){
+    if(chartPage < datesFourWeeks.length-1){
       setChartPage(preValue => preValue + 1);
     }
   }
@@ -47,9 +53,9 @@ export const Stats = ()=>{
     <div className="timer">
       <h2 className="mb-4 mt-3">Activity Summary</h2>
       <div className="week-control-btn">
-        <button className="left-btn" onClick={handlePrevWeek}>&lt;</button>
+        <button title="previous week" className="left-btn" onClick={handlePrevWeek}>&lt;</button>
         <span className="week-btn">week</span>
-        <button className="right-btn" onClick={handleNextWeek}>&gt;</button>
+        <button title="next week" className="right-btn" onClick={handleNextWeek}>&gt;</button>
       </div>
       {!user && <p className="text-secondary">* This report will be available when you are logged in</p>}
       <BarChart 

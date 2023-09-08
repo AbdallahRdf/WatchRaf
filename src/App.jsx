@@ -72,10 +72,11 @@ export function App() {
         chartCollectionRef,
         where("uid", "==", user.uid),
         where("timestamp", ">=", lastFourWeeksDate),
-        orderBy("timestamp", "asc")
+        orderBy("timestamp", "desc")
       );
 
-      const todayData = new Date();
+      const todayDate = new Date();
+      let oldestDateInDB = new Date();
 
       const data = await getDocs(queryRef);
       const formattedData = data.docs.map((doc) => {
@@ -88,23 +89,43 @@ export function App() {
           breaksCount: dataArr.breakCount,
           date: dataArr.timestamp.toDate(),
         });
+        if(oldestDateInDB > dataArr.timestamp.toDate()){
+          oldestDateInDB = new Date(dataArr.timestamp.toDate());
+        }
         return dataArr;
       });
 
+      const oldestDay = oldestDateInDB.getDate();
+      const oldestMonth = oldestDateInDB.getMonth();
+      const oldestYear = oldestDateInDB.getFullYear();
+
       todayPomosCount = pomoDataFromDB.filter(
-        (pomo) => pomo.date.getDate() === todayData.getDate()
+        (pomo) => pomo.date.getDate() === todayDate.getDate()
       );
       todayBreakCount = breakDataFromDB.filter(
-        (brek) => brek.date.getDate() === todayData.getDate()
+        (brek) => brek.date.getDate() === todayDate.getDate()
       );
       todayBreakCount.length > 0 && setBreaks(todayBreakCount[0].breaksCount);
       todayPomosCount.length > 0 && setPomos(todayPomosCount[0].pomosCount);
 
       const startDate = new Date();
-      startDate.setDate(startDate.getDate() - 27);
 
+      pomoData.push({ pomosCount: state.pomosCount, date: new Date(startDate) });
+      breakData.push({ breaksCount: state.breakCount, date: new Date(startDate) });
+      
+      startDate.setDate(startDate.getDate() - 1);
       for (let i = 1; i < 28; i++) {
         const currentDate = new Date(startDate);
+
+        const condition1 = breakData.some(brek => {
+          return (brek.date.getDate()==oldestDay && brek.date.getMonth()==oldestMonth && brek.date.getFullYear()==oldestYear);
+        });
+        const condition2 = pomoData.some(pomo => {
+          return (pomo.date.getDate() == oldestDay && pomo.date.getMonth() == oldestMonth && pomo.date.getFullYear() == oldestYear);
+        });
+        if ( condition1 && condition2 && pomoData.length%7===0){
+          break;
+        }
 
         const pomo = pomoDataFromDB.filter(
           (pomo) => pomo.date.getDate() === currentDate.getDate()
@@ -123,12 +144,13 @@ export function App() {
         } else {
           breakData.push({ breaksCount: 0, date: currentDate });
         }
-        startDate.setDate(startDate.getDate() + 1);
+        startDate.setDate(startDate.getDate() - 1);
       }
-      pomoData.push({ pomosCount: state.pomosCount, date: startDate });
-      breakData.push({ breaksCount: state.breakCount, date: startDate });
-      setPomoData(pomoData);
-      setBreakData(breakData);
+      // pomoData.push({ pomosCount: state.pomosCount, date: startDate });
+      // breakData.push({ breaksCount: state.breakCount, date: startDate });
+      setPomoData(pomoData.reverse());
+      setBreakData(breakData.reverse());
+      console.log(pomoData, breakData);
     };
 
     fetchData();

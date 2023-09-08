@@ -268,12 +268,12 @@ input::placeholder {
 }
 
 .week-btn {
-    padding: 5px 10px;
+    padding: 5px 14px;
     color: #00000099;
 }
 
 .left-btn {
-    padding: 5px 14px;
+    padding: 5px 16px;
     background-color: transparent;
     border: none;
     outline: none;
@@ -283,7 +283,7 @@ input::placeholder {
 }
 
 .right-btn {
-    padding: 5px 14px;
+    padding: 5px 16px;
     background-color: transparent;
     border: none;
     outline: none;
