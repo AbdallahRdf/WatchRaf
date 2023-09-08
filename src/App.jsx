@@ -63,6 +63,7 @@ export function App() {
         );
         return;
       }
+      //* setting the date for the last 28 days;
       const lastFourWeeksDate = new Date();
       lastFourWeeksDate.setDate(lastFourWeeksDate.getDate() - 28);
       lastFourWeeksDate.setHours(0, 0, 0, 0);
@@ -75,7 +76,6 @@ export function App() {
         orderBy("timestamp", "desc")
       );
 
-      const todayDate = new Date();
       let oldestDateInDB = new Date();
 
       const data = await getDocs(queryRef);
@@ -99,6 +99,8 @@ export function App() {
       const oldestMonth = oldestDateInDB.getMonth();
       const oldestYear = oldestDateInDB.getFullYear();
 
+      const todayDate = new Date();
+
       todayPomosCount = pomoDataFromDB.filter(
         (pomo) => pomo.date.getDate() === todayDate.getDate()
       );
@@ -108,14 +110,14 @@ export function App() {
       todayBreakCount.length > 0 && setBreaks(todayBreakCount[0].breaksCount);
       todayPomosCount.length > 0 && setPomos(todayPomosCount[0].pomosCount);
 
-      const startDate = new Date();
+      // const todayDate = new Date();
 
-      pomoData.push({ pomosCount: state.pomosCount, date: new Date(startDate) });
-      breakData.push({ breaksCount: state.breakCount, date: new Date(startDate) });
+      pomoData.push({ pomosCount: state.pomosCount, date: new Date(todayDate) });
+      breakData.push({ breaksCount: state.breakCount, date: new Date(todayDate) });
       
-      startDate.setDate(startDate.getDate() - 1);
+      todayDate.setDate(todayDate.getDate() - 1);
       for (let i = 1; i < 28; i++) {
-        const currentDate = new Date(startDate);
+        const currentDate = new Date(todayDate);
 
         const condition1 = breakData.some(brek => {
           return (brek.date.getDate()==oldestDay && brek.date.getMonth()==oldestMonth && brek.date.getFullYear()==oldestYear);
@@ -144,13 +146,11 @@ export function App() {
         } else {
           breakData.push({ breaksCount: 0, date: currentDate });
         }
-        startDate.setDate(startDate.getDate() - 1);
+        todayDate.setDate(todayDate.getDate() - 1);
       }
-      // pomoData.push({ pomosCount: state.pomosCount, date: startDate });
-      // breakData.push({ breaksCount: state.breakCount, date: startDate });
       setPomoData(pomoData.reverse());
       setBreakData(breakData.reverse());
-      console.log(pomoData, breakData);
+      // console.log(pomoData, breakData);
     };
 
     fetchData();
@@ -184,7 +184,7 @@ export function App() {
     window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [state.isRunning]); // TODO: test if i should put state.isRunning in the arrray of dependenies.
+  }, [state.isRunning]); 
 
   useTimerSound(state, isPomodoro);
 

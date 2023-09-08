@@ -4,11 +4,11 @@ import MyContext from "../context/MyContext";
 
 export const Stats = ()=>{
   const { user, pomoData, breakData } = useContext(MyContext);
-  console.log((pomoData.length));
+
   const dates = pomoData.length > 0 ? pomoData.map(element => element.date) : [];
   const data1 = pomoData.length > 0 ? pomoData.map(element => element.pomosCount) : [];
   const data2 = breakData.length > 0 ? breakData.map(element => element.breaksCount) : [];
-  
+
   const [chartPage, setChartPage] = useState(0);
 
   useEffect(()=>{
@@ -21,7 +21,7 @@ export const Stats = ()=>{
   const breakDataFourWeeks = [];
   const datesFourWeeks = [];
 
-  for (let i = 0; i < 28; i = i + 7) {
+  for (let i = 0; i < dates.length; i = i + 7) {
     datesFourWeeks.push(dates.slice(i, i + 7));
     pomoDataFourWeeks.push(data1.slice(i, i + 7));
     breakDataFourWeeks.push(data2.slice(i, i + 7));
@@ -30,11 +30,16 @@ export const Stats = ()=>{
   const maxPomo = max(pomoDataFourWeeks[chartPage]);
   const maxBreak = max(breakDataFourWeeks[chartPage]);
   const maxValue = maxPomo > maxBreak ? maxPomo : maxBreak;
+
   function max(arr) {
-    const max = arr.reduce((max, value) => {
-      return max < value ? value : max;
-    }, 0);
-    return max;
+    if (Array.isArray(arr) && arr.length > 0){
+      const max = arr.reduce((max, value) => {
+        return max < value ? value : max;
+      }, 0);
+      return max;
+    }else{
+      return undefined;
+    }
   }
 
   const handleNextWeek = () => {
