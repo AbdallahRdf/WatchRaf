@@ -110,8 +110,6 @@ export function App() {
       todayBreakCount.length > 0 && setBreaks(todayBreakCount[0].breaksCount);
       todayPomosCount.length > 0 && setPomos(todayPomosCount[0].pomosCount);
 
-      // const todayDate = new Date();
-
       pomoData.push({ pomosCount: state.pomosCount, date: new Date(todayDate) });
       breakData.push({ breaksCount: state.breakCount, date: new Date(todayDate) });
       
@@ -150,12 +148,31 @@ export function App() {
       }
       setPomoData(pomoData.reverse());
       setBreakData(breakData.reverse());
-      // console.log(pomoData, breakData);
     };
 
     fetchData();
-  }, [user])
+  }, [user]);
 
+  useEffect(() => {
+    if (user && state.pomosCount !== pomoData[pomoData.length - 1].pomosCount) {
+      setPomoData((prevState) => {
+        const todayStats = prevState.pop();
+        prevState.push({ pomosCount: state.pomosCount, date: todayStats.date });
+        return prevState;
+      })
+    }
+  }, [state.pomosCount]);
+
+  useEffect(() => {
+    if (user && state.breakCount !== breakData[breakData.length - 1].breaksCount) {
+      setBreakData((prevState) => {
+        const todayStats = prevState.pop();
+        prevState.push({ breaksCount: state.breakCount, date: todayStats.date });
+        return prevState;
+      })
+    }
+  }, [state.breakCount]);
+  
   const store = {
     state,
     isPomodoro,

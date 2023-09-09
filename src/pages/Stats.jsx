@@ -5,6 +5,7 @@ import MyContext from "../context/MyContext";
 export const Stats = ()=>{
   const { user, pomoData, breakData } = useContext(MyContext);
 
+  //* creates separate arrays, for dates, pomodor counts and break counts.
   const dates = pomoData.length > 0 ? pomoData.map(element => element.date) : [];
   const data1 = pomoData.length > 0 ? pomoData.map(element => element.pomosCount) : [];
   const data2 = breakData.length > 0 ? breakData.map(element => element.breaksCount) : [];
@@ -21,6 +22,7 @@ export const Stats = ()=>{
   const breakDataFourWeeks = [];
   const datesFourWeeks = [];
 
+  //* creates a nested array, each element is an array of seven value
   for (let i = 0; i < dates.length; i = i + 7) {
     datesFourWeeks.push(dates.slice(i, i + 7));
     pomoDataFourWeeks.push(data1.slice(i, i + 7));
@@ -31,26 +33,25 @@ export const Stats = ()=>{
   const maxBreak = max(breakDataFourWeeks[chartPage]);
   const maxValue = maxPomo > maxBreak ? maxPomo : maxBreak;
 
+  //* returns the max value from an array
   function max(arr) {
-    if (Array.isArray(arr) && arr.length > 0){
-      const max = arr.reduce((max, value) => {
-        return max < value ? value : max;
-      }, 0);
-      return max;
-    }else{
+    if (Array.isArray(arr) && arr.length > 0) {
+      return Math.max(...arr);
+    } else {
       return undefined;
     }
   }
 
+  //* handles next week button
   const handleNextWeek = () => {
     if(chartPage < datesFourWeeks.length-1){
-      setChartPage(preValue => preValue + 1);
+      setChartPage(prevState => prevState + 1);
     }
   }
-
+  //* handles previous week button
   const handlePrevWeek = () => {
     if (chartPage > 0) {
-      setChartPage(preValue => preValue - 1);
+      setChartPage(prevState => prevState - 1);
     }
   }
 
@@ -58,9 +59,9 @@ export const Stats = ()=>{
     <div className="timer">
       <h2 className="mb-4 mt-3">Activity Summary</h2>
       <div className="week-control-btn">
-        <button title="previous week" className="left-btn" onClick={handlePrevWeek}>&lt;</button>
+        <button title="previous week" className="left-btn" onClick={handlePrevWeek} disabled={chartPage <= 0}>&lt;</button>
         <span className="week-btn">week</span>
-        <button title="next week" className="right-btn" onClick={handleNextWeek}>&gt;</button>
+        <button title="next week" className="right-btn" onClick={handleNextWeek} disabled={chartPage >= datesFourWeeks.length - 1}>&gt;</button>
       </div>
       {!user && <p className="text-secondary">* This report will be available when you are logged in</p>}
       <BarChart 
