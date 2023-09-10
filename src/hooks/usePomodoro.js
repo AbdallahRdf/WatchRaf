@@ -33,8 +33,6 @@ export const usePomodoro = (user) => {
 
   const { pomodoro, shortBreak, longBreak } = timerStyle;
 
-  const todayDocId = useTodayDoc(user);
-
   const reducer = (state, { type, payload }) => {
     switch (type) {
       case ACTIONS.stop:
@@ -98,13 +96,11 @@ export const usePomodoro = (user) => {
           isRunning: payload.shouldRun,
         };
       case ACTIONS.incrementPomoCount:
-        updateTodayDoc(state, todayDocId, timerStyle);
         return {
           ...state,
           pomosCount: state.pomosCount + 25,
         };
       case ACTIONS.incrementBreakCount:
-        updateTodayDoc(state, todayDocId, timerStyle);
         const timeToAdd = state.isPomodoro == shortBreak.title ? 5 : 15;
         return {
           ...state,
@@ -133,6 +129,8 @@ export const usePomodoro = (user) => {
     breakCount: 0,
   });
 
+  const todayDocId = useTodayDoc(user, state);
+
   useEffect(() => {
     let timer;
 
@@ -148,6 +146,7 @@ export const usePomodoro = (user) => {
         user && dispatch({ type: ACTIONS.incrementBreakCount });
         dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
       }
+      user && updateTodayDoc(state, todayDocId, timerStyle);
     }
 
     return () => clearTimeout(timer);
