@@ -31,7 +31,7 @@ export function App() {
   const [user, shouldRender] = useAuthUserState();
 
   //* creates the timer state
-  const [state, dispatch, isPomodoro] = usePomodoro();
+  const [state, dispatch, isPomodoro] = usePomodoro(user);
 
   const stopTimer = () => dispatch({ type: ACTIONS.stop });
 
