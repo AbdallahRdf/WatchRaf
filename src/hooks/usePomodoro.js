@@ -1,7 +1,8 @@
-import { addDoc, collection, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, updateDoc, where, getDoc } from "firebase/firestore";
 import { useReducer, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import { useTodayDoc } from "./useTodayDoc";
+import { updateTodayDoc } from "./useUpdateTodayDoc";
 
 export const timerStyle = {
   pomodoro: {
@@ -31,6 +32,8 @@ export const ACTIONS = {
 export const usePomodoro = (user) => {
 
   const { pomodoro, shortBreak, longBreak } = timerStyle;
+
+  const todayDocId = useTodayDoc(user);
 
   const reducer = (state, { type, payload }) => {
     switch (type) {
@@ -95,11 +98,13 @@ export const usePomodoro = (user) => {
           isRunning: payload.shouldRun,
         };
       case ACTIONS.incrementPomoCount:
+        updateTodayDoc(state, todayDocId, timerStyle);
         return {
           ...state,
           pomosCount: state.pomosCount + 25,
         };
       case ACTIONS.incrementBreakCount:
+        updateTodayDoc(state, todayDocId, timerStyle);
         const timeToAdd = state.isPomodoro == shortBreak.title ? 5 : 15;
         return {
           ...state,
@@ -137,18 +142,16 @@ export const usePomodoro = (user) => {
       }, 1000);
     } else if (state.timeRemaining < 0) {
       if (pomodoro.title === state.isPomodoro) {
-        dispatch({ type: ACTIONS.incrementPomoCount });
+        user && dispatch({ type: ACTIONS.incrementPomoCount });
         dispatch({ type: shortBreak.title, payload: { shouldRun: true } });
       } else {
-        dispatch({ type: ACTIONS.incrementBreakCount });
+        user && dispatch({ type: ACTIONS.incrementBreakCount });
         dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
       }
     }
 
     return () => clearTimeout(timer);
   }, [state]);
-
-  const todayDocId = useTodayDoc(user, state);
 
   return [state, dispatch, pomodoro.title === state.isPomodoro];
 }
