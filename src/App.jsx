@@ -49,7 +49,7 @@ export function App() {
   const setBreaks = (count) => dispatch({ type: ACTIONS.setBreakCount, payload: { count } });
 
   //* fetches the data if the user is available.
-  useFechChartData(user, state, setBreakData, setPomoData);
+  useFechChartData(user, state, setBreakData, setPomoData, setPomos, setBreaks);
   // useEffect(() => {
   //   const pomoDataFromDB = [];
   //   const breakDataFromDB = [];
