@@ -148,10 +148,20 @@ body {
 }
 
 .control-btn {
-    width: 20%;
     margin: 22px 5px;
+    padding: 8px 50px;
     font-size: 1.3rem;
     border-radius: 50px;
+    border: none;
+    color: #fff;
+}
+
+.bg-blue {
+    background-color: #0D6EFD;
+}
+
+.bg-green {
+    background-color: #198754;
 }
 
 .d-hidden {
@@ -169,11 +179,14 @@ body {
 }
 
 .wrapper {
-    width: 25%;
     margin: 20px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.wrapper-width {
+    width: 400px;
 }
 
 .form-wrapper {
@@ -224,15 +237,16 @@ body {
     color: rgba(0, 0, 0, 0.51);
     border: none;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2), 0px 0px 2px rgba(0, 0, 0, 0.372);
-    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
 }
 
 .google-logo {
     width: 20px;
-    margin-right: 4px;
-    position: absolute;
-    top: 22%;
-    left: 18%
+    position: static;
+    margin-right: 6px
 }
 
 .signup-btn {
@@ -398,6 +412,7 @@ input::placeholder {
 
     .timer {
         width: 94%;
+        overflow: hidden;
         margin: 20px auto;
         display: flex;
         flex-direction: column;
@@ -406,5 +421,71 @@ input::placeholder {
         padding: 20px;
         /* border: 1px solid black; */
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.372);
+    }
+}
+
+/* media query for timer control button */
+@media screen and (max-width: 411px) {
+    .control-btns {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .control-btn-icon {
+        border-radius: 50px;
+        padding: 4px;
+        position: relative;
+        width: 70px;
+        height: 70px;
+        border: none;
+    }
+
+    .play-icon {
+        width: 50px;
+        position: absolute;
+        top: 15%;
+        left: 20%;
+    }
+
+    .reset-icon {
+        width: 40px;
+        position: absolute;
+        top: 24%;
+        left: 20%;
+    }
+
+    .pause-icon {
+        width: 50px;
+        position: absolute;
+        top: 15%;
+        left: 15%;
+    }
+
+    .pomo-clock {
+        font-size: 5rem;
+        color: #0D6EFD;
+        z-index: 1;
+    }
+
+    .clock {
+        font-size: 5rem;
+        color: #198754;
+        z-index: 1;
+    }
+
+    .cercle {
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        border-radius: 50%;
+        background-color: #F7FAFF;
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .wrapper-width {
+        width: 90%;
     }
 }

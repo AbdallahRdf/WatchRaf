@@ -57,7 +57,7 @@ export const Signup = () => {
 
 
     return (
-        <div className="wrapper">
+        <div className="wrapper wrapper-width">
             <div>
                 <a href="/" className="logo-large">Pomoraf</a>
                 <p className="grey-signup-text">Create Account</p>
@@ -71,12 +71,10 @@ export const Signup = () => {
                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 }
-                <div className="w-100 mb-3 mt-3">
-                    <button className="google-signup-btn" onClick={signupWithGoogle}>
-                        <img className="google-logo" src={googleImg} alt="google logo" />
-                        Signup with Google
-                    </button>
-                </div>
+                <button className="google-signup-btn" onClick={signupWithGoogle}>
+                    <img className="google-logo" src={googleImg} alt="google logo" />
+                    Signup with Google
+                </button>
                 <p className="or-line" >or</p>
                 <form onSubmit={handleSubmit(createUser)} className="w-100">
                     <div className="w-100 mt-3">
