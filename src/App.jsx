@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 //* pages
 import { Home } from "./pages/Home";
 import { Stats } from "./pages/Stats";
@@ -22,8 +22,6 @@ import { useFechChartData } from "./hooks/useFetchChartData";
 import { useScreenWidth } from "./hooks/useScreenWidth";
 
 export function App() {
-  //* return the screen width
-  const screenWidth = useScreenWidth();
 
   //* will contain the chart data for the user in the last 28 days
   const [pomoData, setPomoData] = useState([]);
@@ -73,6 +71,19 @@ export function App() {
       })
     }
   }, [state.breakCount]);
+
+  //* return the screen width
+  const isScreenSmall = useScreenWidth();
+
+  //* state to control menu visibility
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    // Close the menu when the location changes (navigating to a new page)
+    setMenuOpen(false);
+  }, [location]);
   
   const store = {
     state,
@@ -89,7 +100,9 @@ export function App() {
     breakData,
     setBreakData,
     setPomoData,
-    screenWidth
+    isScreenSmall,
+    menuOpen,
+    setMenuOpen
   }
 
   //* prevent the page from being refreshed or closed while the timer is running
@@ -121,7 +134,7 @@ export function App() {
           <audio id="pomoTimerSound" className="d-hidden" src={pomoTimerSoundFile} preload="auto"></audio>
           <audio id="breakTimerSound" className="d-hidden" src={breakTimeSoundFile} preload="auto"></audio>
           <MyContext.Provider value={store}>
-            <Navbar user={user} />
+            <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/stats" element={<Stats />} />

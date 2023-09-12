@@ -10,7 +10,7 @@ export const ControlBtn = ({isResetBtn}) => {
             className={isPomodoro ? "btn btn-primary control-btn" : "btn btn-success control-btn"}
             onClick={isResetBtn ? resetTimer :  stopTimer}
         >
-            {isResetBtn ? "Reset" : state.isRunning ? "pause" : "start"}
+            {isResetBtn ? "Reset" : state.isRunning ? "Pause" : "Start"}
         </button>
     )
 }
