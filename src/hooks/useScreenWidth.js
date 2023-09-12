@@ -2,18 +2,18 @@ import { useState, useEffect } from "react";
 
 export const useScreenWidth = () => {
 
-  const breakPoint = 768;
-
-  const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth<=breakPoint);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const breakPoint = 768;
+    const isScreenSmall = screenWidth <= breakPoint;
 
     useEffect(() => {
       const handleScreenSizeChange = () => {
-        setIsScreenSmall(window.innerWidth<=breakPoint);
+        setScreenWidth(window.innerWidth);
       };
       window.addEventListener("resize", handleScreenSizeChange);
 
       return () => window.removeEventListener("resize", handleScreenSizeChange);
     }, []);
 
-    return isScreenSmall;
+    return {screenWidth, isScreenSmall};
 }

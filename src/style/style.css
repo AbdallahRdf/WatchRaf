@@ -304,6 +304,8 @@ input::placeholder {
 .menu-btn {
     background-color: transparent;
     border: none;
+    padding-top: 3px;
+    margin-right: 8px;
 }
 
 .menu-img {

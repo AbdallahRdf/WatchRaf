@@ -27,6 +27,7 @@ const Navbar = () => {
                         :
                         (
                             <button
+                                className="menu-btn"
                                 onClick={() => setMenuOpen((prev) => !prev)}
                             >
                                 <img src={menuIcon} alt="menu icon" className="menu-img" />

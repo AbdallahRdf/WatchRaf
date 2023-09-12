@@ -73,7 +73,7 @@ export function App() {
   }, [state.breakCount]);
 
   //* return the screen width
-  const isScreenSmall = useScreenWidth();
+  const {screenWidth, isScreenSmall} = useScreenWidth();
 
   //* state to control menu visibility
   const [menuOpen, setMenuOpen] = useState(false);
@@ -101,6 +101,7 @@ export function App() {
     setBreakData,
     setPomoData,
     isScreenSmall,
+    screenWidth,
     menuOpen,
     setMenuOpen
   }
