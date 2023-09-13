@@ -426,21 +426,6 @@ input::placeholder {
 
 /* media query for timer control button */
 @media screen and (max-width: 411px) {
-    .control-btns {
-        width: 100%;
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .control-btn-icon {
-        border-radius: 50px;
-        padding: 4px;
-        position: relative;
-        width: 70px;
-        height: 70px;
-        border: none;
-    }
-
     .play-icon {
         width: 50px;
         position: absolute;
@@ -487,5 +472,23 @@ input::placeholder {
 @media screen and (max-width: 480px) {
     .wrapper-width {
         width: 90%;
+    }
+}
+
+@media screen and (max-width: 360px){
+    .control-btns {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .control-btn {
+        margin: 4px 0px;
+        padding: 8px 50px;
+        font-size: 1.3rem;
+        border-radius: 50px;
+        border: none;
+        color: #fff;
     }
 }

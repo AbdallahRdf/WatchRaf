@@ -16,7 +16,7 @@ export const TimerButton = ({ pomo }) => {
 
   return (
       <button
-          className={pomo === state.isPomodoro ? "select-btn selected-btn" : "select-btn"}
+          className={action === state.isPomodoro ? "select-btn selected-btn" : "select-btn"}
           onClick={() => changeTimerType(action)}
       >
           <span className={timerStyle.pomodoro.title === pomo ? "blue-color" : "green-color"}>{pomo}</span>
