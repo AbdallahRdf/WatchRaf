@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
 import MyContext from "../context/MyContext";
 //* menu img url
 import menuIcon from '../img/hamburger.png';
@@ -18,7 +18,7 @@ const Navbar = () => {
         <>
             <nav className="nav">
                 <div>
-                    <a href="/" className="logo">Pomoraf</a>
+                    <Link to="/" className="logo" >Pomoraf</Link>
                 </div>
                 {
                     !isScreenSmall

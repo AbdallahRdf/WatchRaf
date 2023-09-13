@@ -55,8 +55,8 @@ export const Login = () => {
     return (
         <div className="wrapper wrapper-width">
             <div>
-                <a href="/" className="logo-large">Pomoraf</a>
-                <p className="grey-signup-text">Login</p>
+                <Link to="/" className="logo" >Pomoraf</Link>
+                <p className="grey-signup-text mt-2">Login</p>
             </div>
             <div className="form-wrapper">
                 {loginError &&
