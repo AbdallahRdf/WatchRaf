@@ -10,16 +10,13 @@ import Navbar from "./components/Navbar";
 import Spinner from "./components/Spinner"
 //* context file
 import MyContext from "./context/MyContext";
-//* sound files
-import pomoTimerSoundFile from "./audio/microwave-timer-sound.mp3";
-import breakTimeSoundFile from "./audio/bicycle-bell.mp3";
 //* custom hooks
 import { usePomodoro, ACTIONS } from "./hooks/usePomodoro";
-import { useTimerSound } from "./hooks/useTimerSound";
 import { useAuthUserState } from "./hooks/useAuthUserState";
 import { useLoading } from './hooks/useLoading';
 import { useFechChartData } from "./hooks/useFetchChartData";
 import { useScreenWidth } from "./hooks/useScreenWidth";
+import { Audios } from "./components/Audios";
 
 export function App() {
 
@@ -119,9 +116,6 @@ export function App() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [state.isRunning]); 
 
-  //* plays the audio file if the timer is up
-  useTimerSound(state, isPomodoro);
-
   //* is DOM Content loaded 
   const [isLoading] = useLoading();
 
@@ -132,8 +126,7 @@ export function App() {
         <Spinner />
         :
         <>
-          <audio id="pomoTimerSound" className="d-hidden" src={pomoTimerSoundFile} preload="auto"></audio>
-          <audio id="breakTimerSound" className="d-hidden" src={breakTimeSoundFile} preload="auto"></audio>
+          <Audios state={state} isPomodoro={isPomodoro} />
           <MyContext.Provider value={store}>
             <Navbar />
             <Routes>
