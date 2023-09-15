@@ -6,12 +6,10 @@ import { signOut } from "firebase/auth";
 import { NavLink } from "./NavLink";
 import { UserDataContext } from "../context/UserDataContextProvider";
 import { ResponsivenessContext } from "../context/ResponsivenessContextProvider";
-import { StateContext } from "../context/StateContextProvider";
 
 export const NavElements = () => {
 
-    const { user } = useContext(StateContext);
-    const { setBreakData, setPomoData } = useContext(UserDataContext);
+    const { user, setBreakData, setPomoData } = useContext(UserDataContext);
     const { isScreenSmall, menuOpen, setMenuOpen } = useContext(ResponsivenessContext);
     
     const signUserOut = () => {

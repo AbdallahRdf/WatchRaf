@@ -29,11 +29,9 @@ export const ACTIONS = {
   setBreakCount: "set Break Count"
 };
 
-export const usePomodoro = (user, loading) => {
+export const usePomodoro = (user) => {
 
   const { pomodoro, shortBreak, longBreak } = timerStyle;
-
-  useEffect(() => console.log("we got the user in the usePomodoro: ", loading, user), [user, loading]);
 
   const reducer = (state, { type, payload }) => {
     switch (type) {

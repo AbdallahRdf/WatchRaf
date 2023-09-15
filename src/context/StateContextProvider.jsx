@@ -8,10 +8,10 @@ export const StateContext = createContext();
 export const StateContextProvider = ({ children }) => {
     
     //*create user obj
-    const {user, loading} = useAuthState(auth);
+    const [user] = useAuthState(auth);
 
     //* creates and return the timer state
-    const [state, dispatch, isPomodoro] = usePomodoro(user, loading);
+    const [state, dispatch, isPomodoro] = usePomodoro(user);
 
     const stopTimer = () => dispatch({ type: ACTIONS.stop });
 
@@ -22,28 +22,6 @@ export const StateContextProvider = ({ children }) => {
     const setPomos = (count) => dispatch({ type: ACTIONS.setPomosCount, payload: { count } });
 
     const setBreaks = (count) => dispatch({ type: ACTIONS.setBreakCount, payload: { count } });
-
-    //* check if the state.pomosCount changed, so to update the pomoData state, because it is used in stats page (chart)
-    useEffect(() => {
-        if (user && state.pomosCount !== pomoData[pomoData.length - 1].pomosCount) {
-            setPomoData((prevState) => {
-                const todayStats = prevState.pop();
-                prevState.push({ pomosCount: state.pomosCount, date: todayStats.date });
-                return prevState;
-            })
-        }
-    }, [state.pomosCount]);
-
-    //* check if the state.breakCount changed, so to update the breakData state, because it is used in stats page (chart)  
-    useEffect(() => {
-        if (user && state.breakCount !== breakData[breakData.length - 1].breaksCount) {
-            setBreakData((prevState) => {
-                const todayStats = prevState.pop();
-                prevState.push({ breaksCount: state.breakCount, date: todayStats.date });
-                return prevState;
-            })
-        }
-    }, [state.breakCount]);
 
     //* prevent the page from being refreshed or closed while the timer is running
     useEffect(() => {
@@ -59,8 +37,6 @@ export const StateContextProvider = ({ children }) => {
     }, [state.isRunning]); 
 
     const store = {
-        user,
-        loading,
         state,
         isPomodoro,
         changeTimerType,
