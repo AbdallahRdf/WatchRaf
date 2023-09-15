@@ -1,9 +1,11 @@
-import { useEffect, useRef } from "react";
-//* sound files
+import { useContext, useEffect, useRef } from "react";
 import pomoTimerSoundFile from "../audio/microwave-timer-sound.mp3";
 import breakTimeSoundFile from "../audio/bicycle-bell.mp3";
+import { StateContext } from "../context/StateContextProvider";
 
-export const Audios = ({ state, isPomodoro }) => {
+const Audios = () => {
+    const { state, isPomodoro } = useContext(StateContext);
+
     const pomoAudioRef = useRef();
     const breaksAudioRef = useRef();
 
@@ -24,3 +26,5 @@ export const Audios = ({ state, isPomodoro }) => {
     </div>
   )
 }
+
+export default Audios;

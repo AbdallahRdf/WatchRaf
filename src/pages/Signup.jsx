@@ -46,7 +46,6 @@ export const Signup = () => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            console.log("User signed up: ", user);
             setSignupError(false);
             navigate("/");
         } catch(error) {

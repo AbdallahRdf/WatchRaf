@@ -1,14 +1,18 @@
 import { useContext } from "react";
-import MyContext from "../context/MyContext";
 //* firbase
 import { auth } from "../firebase/firebase";
 import { signOut } from "firebase/auth";
 //* components
 import { NavLink } from "./NavLink";
+import { UserDataContext } from "../context/UserDataContextProvider";
+import { ResponsivenessContext } from "../context/ResponsivenessContextProvider";
+import { StateContext } from "../context/StateContextProvider";
 
 export const NavElements = () => {
 
-    const { setBreakData, setPomoData, user, isScreenSmall, menuOpen, setMenuOpen } = useContext(MyContext);
+    const { user } = useContext(StateContext);
+    const { setBreakData, setPomoData } = useContext(UserDataContext);
+    const { isScreenSmall, menuOpen, setMenuOpen } = useContext(ResponsivenessContext);
     
     const signUserOut = () => {
         setPomoData([]);

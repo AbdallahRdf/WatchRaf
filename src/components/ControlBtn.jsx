@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import MyContext from "../context/MyContext";
+import { StateContext } from "../context/StateContextProvider";
 
 export const ControlBtn = ({isResetBtn}) => {
 
-    const { state, stopTimer, isPomodoro, resetTimer, screenWidth } = useContext(MyContext);
+    const { state, stopTimer, isPomodoro, resetTimer } = useContext(StateContext);
 
     return (
         <button

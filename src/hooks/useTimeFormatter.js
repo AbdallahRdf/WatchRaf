@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import MyContext from "../context/MyContext";
+import { StateContext } from "../context/StateContextProvider";
 
 export const useTimeFormatter = () => {
-    const {state} = useContext(MyContext);
+    const {state} = useContext(StateContext);
 
     if (state.timeRemaining < 0) {
     return "00:00";

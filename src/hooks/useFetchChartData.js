@@ -13,12 +13,15 @@ export const useFechChartData = (user, state, setBreakData, setPomoData, setPomo
 
         const fetchData = async () => {
             if (!user) {
-                // console.log(
-                //   "User is null or not yet available. Skipping data fetch."
-                // );
+                console.log(
+                  "User is null or not yet available. Skipping data fetch."
+                );
                 setBreakData([]);
                 setPomoData([]);
                 return;
+            }
+            else {
+                console.log("user is available !");
             }
             //* setting the date for the last 28 days;
             const lastFourWeeksDate = new Date();

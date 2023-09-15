@@ -3,11 +3,11 @@ import { timerStyle } from "../hooks/usePomodoro";
 import { TimerCercle } from "../components/TimerCercle";
 import { ControlBtn } from "../components/ControlBtn";
 import { useContext } from "react";
-import MyContext from "../context/MyContext";
+import { ResponsivenessContext } from "../context/ResponsivenessContextProvider";
 
 export const Home = () => {
 
-    const { screenWidth } = useContext(MyContext);
+    const { screenWidth } = useContext(ResponsivenessContext);
 
     const shortTitleForShortBreak = timerStyle.shortBreak.title.split(" ")[0];
     const shortTitleForLongBreak = timerStyle.longBreak.title.split(" ")[0];

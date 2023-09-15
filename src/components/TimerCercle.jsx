@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import MyContext from "../context/MyContext";
 import { useTimeFormatter } from "../hooks/useTimeFormatter";
+import { StateContext } from "../context/StateContextProvider";
 
 export const TimerCercle = () => {
     
-    const {isPomodoro} = useContext(MyContext);
+    const {isPomodoro} = useContext(StateContext);
 
     const timeToBeShown = useTimeFormatter();
 

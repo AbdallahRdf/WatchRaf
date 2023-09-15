@@ -12,5 +12,5 @@ export const useAuthUserState = () => {
       }
     }, [user, loading]);
 
-    return [user, shouldRender];
+    return shouldRender;
 }

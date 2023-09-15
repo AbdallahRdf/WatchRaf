@@ -1,9 +1,9 @@
 import { useContext } from "react"
-import MyContext from "../context/MyContext"
 import { timerStyle } from "../hooks/usePomodoro";
+import { StateContext } from "../context/StateContextProvider";
 
 export const TimerButton = ({ pomo }) => {
-    const {state, changeTimerType} = useContext(MyContext);
+    const {state, changeTimerType} = useContext(StateContext);
     //* action to be handled by the reducer func;
     let action = pomo;
     //* checking if we are using only the half of the title, then assign the whole title to the action;

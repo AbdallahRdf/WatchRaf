@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom"
-import MyContext from "../context/MyContext";
+import { ResponsivenessContext } from "../context/ResponsivenessContextProvider";
 
 export const NavLink = ({path, linkTitle}) => {
-    const {isScreenSmall, setMenuOpen} = useContext(MyContext);
+    const {isScreenSmall, setMenuOpen} = useContext(ResponsivenessContext);
     const location = useLocation();
     return (
         <li className="list-item">

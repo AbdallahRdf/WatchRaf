@@ -1,9 +1,11 @@
 import { BarChart } from "../components/BarChart";
 import { useContext, useEffect, useState } from "react";
-import MyContext from "../context/MyContext";
+import { UserDataContext } from "../context/UserDataContextProvider";
+import { StateContext } from "../context/StateContextProvider";
 
 export const Stats = ()=>{
-  const { user, pomoData, breakData } = useContext(MyContext);
+  const { pomoData, breakData } = useContext(UserDataContext);
+  const { user } = useContext(StateContext);
 
   //* creates separate arrays, for dates, pomodor counts and break counts.
   const dates = pomoData.length > 0 ? pomoData.map(element => element.date) : [];

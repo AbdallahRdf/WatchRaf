@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import MyContext from "../context/MyContext";
 //* menu img url
 import menuIcon from '../img/hamburger.png';
 //* components
 import { NavElements } from "./NavElements";
+import { ResponsivenessContext } from "../context/ResponsivenessContextProvider";
 
 const Navbar = () => {
-    const { isScreenSmall, setMenuOpen } = useContext(MyContext);
+    const { isScreenSmall, setMenuOpen } = useContext(ResponsivenessContext);
 
     //* if trying to signup or loggin then don't render the navbar
     if (location.pathname == '/signup' || location.pathname == '/login') {
