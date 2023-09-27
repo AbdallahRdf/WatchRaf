@@ -30,20 +30,20 @@ export function App() {
         <Spinner />
         :
         <>
-            <StateContextProvider>
-              <UserDataContextProvider>
-                <ResponsivenessContextProvider>
-                  <Audios />
-                  <Navbar />
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/stats" element={<Stats />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/login" element={<Login />} />
-                  </Routes>
-                </ResponsivenessContextProvider>
-              </UserDataContextProvider>
-            </StateContextProvider>
+          <StateContextProvider>
+            <UserDataContextProvider>
+              <ResponsivenessContextProvider>
+                <Audios />
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/stats" element={<Stats />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/login" element={<Login />} />
+                </Routes>
+              </ResponsivenessContextProvider>
+            </UserDataContextProvider>
+          </StateContextProvider>
         </>
       }
     </>

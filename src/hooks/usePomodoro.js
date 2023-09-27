@@ -6,15 +6,15 @@ import { updateTodayDoc } from "./useUpdateTodayDoc";
 
 export const timerStyle = {
   pomodoro: {
-    time: 25,
+    time: 25*60,
     title: "Pomodoro",
   },
   shortBreak: {
-    time: 5,
+    time: 5*60,
     title: "Short Break",
   },
   longBreak: {
-    time: 15,
+    time: 15*60,
     title: "Long Break",
   },
 };
