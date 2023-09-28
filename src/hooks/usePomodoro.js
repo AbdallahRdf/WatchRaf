@@ -3,6 +3,7 @@ import { useReducer, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import { useTodayDoc } from "./useTodayDoc";
 import { updateTodayDoc } from "./useUpdateTodayDoc";
+import { useWorkersAPI } from "./useWorkersAPI";
 
 export const timerStyle = {
   pomodoro: {
@@ -22,6 +23,7 @@ export const timerStyle = {
 export const ACTIONS = {
   stop: "stop",
   tick: "tick",
+  decrement: "decrement",
   reset: "reset",
   incrementPomoCount: "increment pomodoro count",
   incrementBreakCount: "increment Break Count",
@@ -73,6 +75,11 @@ export const usePomodoro = (user) => {
         return {
           ...state,
           timeRemaining: state.timeRemaining - 1,
+        };
+      case ACTIONS.decrement:
+        return {
+          ...state,
+          timeRemaining: state.timeRemaining - payload.passedTime,
         };
       case pomodoro.title:
         return {
@@ -134,7 +141,11 @@ export const usePomodoro = (user) => {
   useEffect(() => {
     let timer;
 
-    if (state.timeRemaining >= 0 && state.isRunning) {
+    if (
+      state.timeRemaining >= 0 &&
+      state.isRunning &&
+      document.visibilityState === "visible"
+    ) {
       timer = setTimeout(() => {
         dispatch({ type: ACTIONS.tick });
       }, 1000);
@@ -151,6 +162,8 @@ export const usePomodoro = (user) => {
 
     return () => clearTimeout(timer);
   }, [state]);
+
+  useWorkersAPI(state, dispatch);
 
   return [state, dispatch, pomodoro.title === state.isPomodoro];
 }
