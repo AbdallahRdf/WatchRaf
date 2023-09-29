@@ -1,21 +1,19 @@
-import { addDoc, collection, getDocs, query, updateDoc, where, getDoc } from "firebase/firestore";
 import { useReducer, useEffect } from "react";
-import { db } from "../firebase/firebase";
 import { useTodayDoc } from "./useTodayDoc";
 import { updateTodayDoc } from "./useUpdateTodayDoc";
 import { useWorkersAPI } from "./useWorkersAPI";
 
 export const timerStyle = {
   pomodoro: {
-    time: 25*60,
+    time: 25,
     title: "Pomodoro",
   },
   shortBreak: {
-    time: 5*60,
+    time: 5,
     title: "Short Break",
   },
   longBreak: {
-    time: 15*60,
+    time: 15,
     title: "Long Break",
   },
 };
@@ -80,6 +78,7 @@ export const usePomodoro = (user) => {
         return {
           ...state,
           timeRemaining: state.timeRemaining - payload.passedTime,
+          isRunning: true
         };
       case pomodoro.title:
         return {
@@ -150,20 +149,24 @@ export const usePomodoro = (user) => {
         dispatch({ type: ACTIONS.tick });
       }, 1000);
     } else if (state.timeRemaining < 0) {
-      if (pomodoro.title === state.isPomodoro) {
-        user && dispatch({ type: ACTIONS.incrementPomoCount });
-        dispatch({ type: shortBreak.title, payload: { shouldRun: true } });
-      } else {
-        user && dispatch({ type: ACTIONS.incrementBreakCount });
-        dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
-      }
-      user && updateTodayDoc(state, todayDocId, timerStyle);
+      handleTimerMechanism(state, user, dispatch);
     }
 
     return () => clearTimeout(timer);
   }, [state]);
 
-  useWorkersAPI(state, dispatch);
+  useWorkersAPI(state, user, dispatch);
 
   return [state, dispatch, pomodoro.title === state.isPomodoro];
 }
+
+export const handleTimerMechanism = (state, user, dispatch) => {
+  if (timerStyle.pomodoro.title === state.isPomodoro) {
+    user && dispatch({ type: ACTIONS.incrementPomoCount });
+    dispatch({ type: timerStyle.shortBreak.title, payload: { shouldRun: true } });
+  } else {
+    user && dispatch({ type: ACTIONS.incrementBreakCount });
+    dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
+  }
+  user && updateTodayDoc(state, todayDocId, timerStyle);
+};

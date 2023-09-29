@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { ACTIONS, timerStyle } from "./usePomodoro";
+import { ACTIONS, handleTimerMechanism, timerStyle } from "./usePomodoro";
 
-export const useWorkersAPI = (state, dispatch) => {
+export const useWorkersAPI = (state, user, dispatch) => {
   const timerWorker = new Worker("./workerTimer.js");
 
   useEffect(() => {
@@ -23,14 +23,19 @@ export const useWorkersAPI = (state, dispatch) => {
 
     return () =>
       document.removeEventListener("visibilitychange", handleVisibility);
-  }, [state.isRunning]);
+  }, [state.isRunning, document.visibilityState]);
   
   timerWorker.addEventListener("message", (e) => {
-    const elapsedTime = e.data;
-    dispatch({
-      type: ACTIONS.decrement,
-      payload: { passedTime: parseInt(elapsedTime / 1000) },
-    });
-    console.log(parseInt(elapsedTime / 1000));
+
+    if (e.data === "time's up") {
+      handleTimerMechanism(state, user, dispatch);
+    } else {
+      const elapsedTime = e.data;
+      dispatch({
+        type: ACTIONS.decrement,
+        payload: { passedTime: elapsedTime },
+      });
+      console.log(elapsedTime);
+    }
   });
 }
