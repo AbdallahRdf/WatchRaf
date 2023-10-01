@@ -2,8 +2,8 @@ let startTime = 0;
 let timeReached;
 let timerStyle;
 let currentTimerStyle;
-let isRunning = false;
 let timerId;
+let elapsedTime = 0;
 
 self.addEventListener("message", (e) => {
   if (e.data.message === "start") {
@@ -11,7 +11,6 @@ self.addEventListener("message", (e) => {
     console.log("start time: ", startTime);
     timeReached = e.data.state.timeRemaining;
     timerStyle = e.data.timerStyle;
-    isRunning = true;
     switch (e.data.state.isPomodoro) {
       case timerStyle.pomodoro.title:
         currentTimerStyle = timerStyle.pomodoro;
@@ -25,22 +24,20 @@ self.addEventListener("message", (e) => {
     }
     checkIfTimerIsUp();
   } else if (e.data === "stop") {
-    isRunning = false;
-    const elapsedTime = parseInt((new Date() - startTime) / 1000);
+    clearInterval(timerId);
+    console.log(e.data);
     console.log(elapsedTime);
-    clearTimeout(timerId);
     self.postMessage(elapsedTime);
   }
 });
 
 const checkIfTimerIsUp = () => {
-  if(isRunning){
-    const elapsedTime = parseInt((new Date() - startTime) / 1000);
-    console.log(elapsedTime, timeReached);
+  timerId = setInterval(() => {
+    elapsedTime = parseInt((new Date() - startTime) / 1000);
+    console.log("elpased time: ", elapsedTime);
     if (elapsedTime >= timeReached) {
       self.postMessage("time's up");
-    } else {
-      timerId = setTimeout(checkIfTimerIsUp, 1000);
+      clearInterval(timerId);
     }
-  }
-}
+  }, 1000);
+};

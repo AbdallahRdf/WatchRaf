@@ -9,12 +9,12 @@ export const useWorkersAPI = (state, user, dispatch) => {
       if (state.isRunning) {
         if (document.visibilityState === "hidden") {
           timerWorker.postMessage({
-            message: 'start',
+            message: "start",
             state,
-            timerStyle
+            timerStyle,
           });
         } else {
-          timerWorker.postMessage("stop"); // Pause the timer when the tab is not visible
+          timerWorker.postMessage("stop"); // Pause the timer when the tab is visible
         }
       }
     };
@@ -35,7 +35,7 @@ export const useWorkersAPI = (state, user, dispatch) => {
         type: ACTIONS.decrement,
         payload: { passedTime: elapsedTime },
       });
-      console.log(elapsedTime);
+      console.log('form hook: ',elapsedTime);
     }
   });
 }
