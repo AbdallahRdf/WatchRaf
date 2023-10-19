@@ -15,5 +15,6 @@ export const useLoading = () => {
       setIsLoading(false);
     };
   }, []);
-  return [isLoading];
+
+  return isLoading;
 };

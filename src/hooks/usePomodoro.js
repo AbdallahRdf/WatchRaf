@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from "react";
 import { useTodayDoc } from "./useTodayDoc";
 import { updateTodayDoc } from "./useUpdateTodayDoc";
-import { useWorkersAPI } from "./useWorkersAPI";
+import { useTimerHidden } from "./useTimerHidden";
 
 export const timerStyle = {
   pomodoro: {
@@ -142,8 +142,9 @@ export const usePomodoro = (user) => {
 
     if (
       state.timeRemaining >= 0 &&
-      state.isRunning &&
-      document.visibilityState === "visible"
+      state.isRunning 
+      // &&
+      // document.visibilityState === "visible"
     ) {
       timer = setTimeout(() => {
         dispatch({ type: ACTIONS.tick });
@@ -155,7 +156,7 @@ export const usePomodoro = (user) => {
     return () => clearTimeout(timer);
   }, [state]);
 
-  useWorkersAPI(state, user, dispatch);
+  useTimerHidden(state, dispatch);
 
   return [state, dispatch, pomodoro.title === state.isPomodoro];
 }

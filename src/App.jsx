@@ -13,19 +13,22 @@ import { StateContextProvider } from "./context/StateContextProvider";
 import { UserDataContextProvider } from "./context/UserDataContextProvider";
 import { ResponsivenessContextProvider } from "./context/ResponsivenessContextProvider";
 //* custom hooks
-import { useAuthUserState } from "./hooks/useAuthUserState";
 import { useLoading } from './hooks/useLoading';
+//* firebase related stuff
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase/firebase";
 
 export function App() {
   
-  const shouldRender = useAuthUserState();
-
-  //* is DOM Content loaded ?
-  const [isLoading] = useLoading();
+  //* useLoading: custom hook check if DOM Content is loaded so to render the page. 
+  const isLoading = useLoading();
+  
+  //* using the 'loading' to check if the 'auth' user object is loaded so to render the page.
+  const [user, loading] = useAuthState(auth);
 
   return (
     <>
-      { isLoading || !shouldRender
+      { isLoading || loading
         ?
         <Spinner />
         :
