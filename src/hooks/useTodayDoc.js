@@ -8,7 +8,7 @@ export const useTodayDoc = (user, state) => {
     useEffect(() => {
       const chartCollection = collection(db, "chart");
 
-      //* it checks if there is a doc whit today's date and returns it
+      //* it checks if there is a doc with today's date and returns it
       const getTodayDoc = async () => {
         try {
           if (user) {

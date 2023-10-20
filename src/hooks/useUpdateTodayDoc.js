@@ -4,7 +4,7 @@ import { db } from "../firebase/firebase";
 export const updateTodayDoc = async (state, todayDocId, timerStyle) => {
     const { pomodoro, shortBreak, longBreak } = timerStyle;
     let objToUpdate;
-    switch (state.isPomodoro) {
+    switch (state.timerTypeTitle) {
     case pomodoro.title:
         objToUpdate = { pomodoroCount: state.pomosCount + 25 };
         break;

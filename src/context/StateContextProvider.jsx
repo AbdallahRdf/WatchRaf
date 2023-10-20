@@ -3,6 +3,16 @@ import { auth } from "../firebase/firebase";
 import { usePomodoro, ACTIONS } from "../hooks/usePomodoro";
 import { useAuthState } from "react-firebase-hooks/auth";
 
+//  *StateContextProvider Component:
+//  * This component provides a context for managing timer state and actions using the Pomodoro technique.
+//  *
+//  * It integrates with Firebase authentication to identify the current user and utilizes a custom hook(usePomodoro)
+//  * for creating and handling the timer state.It offers functions to control the timer, including starting, stopping,
+//  * resetting, and configuring the type of timer.
+//  *
+//  * Additionally, it prevents page refresh or closure while the timer is running to ensure a seamless user experience.
+//  *
+
 export const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
@@ -10,8 +20,10 @@ export const StateContextProvider = ({ children }) => {
     //*create user obj
     const [user] = useAuthState(auth);
 
-    //* creates and return the timer state
+    //* usePomodoro: custom hook that creates the timer state, and handle its logic.
     const [state, dispatch, isPomodoro] = usePomodoro(user);
+
+    //* functions to simplify handling the timer events and actions.
 
     const stopTimer = () => dispatch({ type: ACTIONS.stop });
 

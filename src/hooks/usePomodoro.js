@@ -3,21 +3,23 @@ import { useTodayDoc } from "./useTodayDoc";
 import { updateTodayDoc } from "./useUpdateTodayDoc";
 import { useTimerHidden } from "./useTimerHidden";
 
+//* creating an object that holds the three types of timers and their time in seconds.
 export const timerStyle = {
   pomodoro: {
-    time: 25,
+    time: 25*60,
     title: "Pomodoro",
   },
   shortBreak: {
-    time: 5,
+    time: 5*60,
     title: "Short Break",
   },
   longBreak: {
-    time: 15,
+    time: 15*60,
     title: "Long Break",
   },
 };
 
+//* creating ACTIONS object to store all the types of actions that are related to the timer
 export const ACTIONS = {
   stop: "stop",
   tick: "tick",
@@ -25,14 +27,16 @@ export const ACTIONS = {
   reset: "reset",
   incrementPomoCount: "increment pomodoro count",
   incrementBreakCount: "increment Break Count",
-  setPomosCount: "set pomos Count",
-  setBreakCount: "set Break Count"
+  setPomosCount: "set pomodoros Count",
+  setBreakCount: "set Breaks Count"
 };
 
 export const usePomodoro = (user) => {
 
+  //* destructuring of the timerStyle object to avoid repetitive and long syntax.
   const { pomodoro, shortBreak, longBreak } = timerStyle;
 
+  //* reducer function for the useReducer hook.
   const reducer = (state, { type, payload }) => {
     switch (type) {
       case ACTIONS.stop:
@@ -41,64 +45,60 @@ export const usePomodoro = (user) => {
           isRunning: !state.isRunning,
         };
       case ACTIONS.reset:
+        //* payload.goToPomodoro: specifies which timer to show after the reset.
+        //* using stateToReturn to know which timer style to show after reseting the timer.
         let stateToReturn;
-        if (payload.goToPomodoro) {
+        if (payload.goToPomodoro || state.timerTypeTitle === pomodoro.title) {
           stateToReturn = {
             ...state,
             timeRemaining: pomodoro.time,
-            isPomodoro: pomodoro.title,
-            isRunning: false,
+            timerTypeTitle: pomodoro.title,
           };
         } else {
           let time;
-          switch (state.isPomodoro) {
-            case pomodoro.title:
-              time = pomodoro.time;
-              break;
-            case shortBreak.title:
-              time = shortBreak.time;
-              break;
-            case longBreak.title:
-              time = longBreak.time;
-              break;
+          if (state.timerTypeTitle === shortBreak.title){
+            time = shortBreak.time;
+          } else {
+            time = longBreak.time;
           }
           stateToReturn = {
             ...state,
             timeRemaining: time,
-            isRunning: false,
           };
         }
-        return stateToReturn;
+        return {...stateToReturn, isRunning: false};
       case ACTIONS.tick:
         return {
           ...state,
           timeRemaining: state.timeRemaining - 1,
         };
       case ACTIONS.decrement:
+        //* ACTIONS.decrement: it is used when we switch to another tab on the browser, the timer stops, when back
+        //* substruct the amount of passed time.
         return {
           ...state,
           timeRemaining: state.timeRemaining - payload.passedTime,
-          isRunning: true
+          isRunning: true,
         };
       case pomodoro.title:
         return {
           ...state,
           timeRemaining: pomodoro.time,
-          isPomodoro: pomodoro.title,
+          timerTypeTitle: pomodoro.title,
           isRunning: payload.shouldRun,
         };
       case shortBreak.title:
         return {
           ...state,
           timeRemaining: shortBreak.time,
-          isPomodoro: shortBreak.title,
+          timerTypeTitle: shortBreak.title,
           isRunning: payload.shouldRun,
         };
       case longBreak.title:
         return {
           ...state,
           timeRemaining: longBreak.time,
-          isPomodoro: longBreak.title,
+          timerTypeTitle: longBreak.title,
           isRunning: payload.shouldRun,
         };
       case ACTIONS.incrementPomoCount:
@@ -107,7 +107,7 @@ export const usePomodoro = (user) => {
           pomosCount: state.pomosCount + 25,
         };
       case ACTIONS.incrementBreakCount:
-        const timeToAdd = state.isPomodoro == shortBreak.title ? 5 : 15;
+        const timeToAdd = state.timerTypeTitle == shortBreak.title ? 5 : 15;
         return {
           ...state,
           breakCount: state.breakCount + timeToAdd,
@@ -130,7 +130,7 @@ export const usePomodoro = (user) => {
   const [state, dispatch] = useReducer(reducer, {
     timeRemaining: pomodoro.time,
     isRunning: false,
-    isPomodoro: pomodoro.title,
+    timerTypeTitle: pomodoro.title,
     pomosCount: 0,
     breakCount: 0,
   });
@@ -150,7 +150,14 @@ export const usePomodoro = (user) => {
         dispatch({ type: ACTIONS.tick });
       }, 1000);
     } else if (state.timeRemaining < 0) {
-      handleTimerMechanism(state, user, dispatch);
+      if (pomodoro.title === state.timerTypeTitle) {
+        user && dispatch({ type: ACTIONS.incrementPomoCount });
+        dispatch({ type: shortBreak.title, payload: { shouldRun: true } });
+      } else {
+        user && dispatch({ type: ACTIONS.incrementBreakCount });
+        dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
+      }
+      user && updateTodayDoc(state, todayDocId, timerStyle);
     }
 
     return () => clearTimeout(timer);
@@ -158,16 +165,5 @@ export const usePomodoro = (user) => {
 
   useTimerHidden(state, dispatch);
 
-  return [state, dispatch, pomodoro.title === state.isPomodoro];
+  return [state, dispatch, pomodoro.title === state.timerTypeTitle];  
 }
-
-export const handleTimerMechanism = (state, user, dispatch) => {
-  if (timerStyle.pomodoro.title === state.isPomodoro) {
-    user && dispatch({ type: ACTIONS.incrementPomoCount });
-    dispatch({ type: timerStyle.shortBreak.title, payload: { shouldRun: true } });
-  } else {
-    user && dispatch({ type: ACTIONS.incrementBreakCount });
-    dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
-  }
-  user && updateTodayDoc(state, todayDocId, timerStyle);
-};
