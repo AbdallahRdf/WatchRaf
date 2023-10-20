@@ -143,8 +143,8 @@ export const usePomodoro = (user) => {
     if (
       state.timeRemaining >= 0 &&
       state.isRunning 
-      // &&
-      // document.visibilityState === "visible"
+      &&
+      document.visibilityState === "visible"
     ) {
       timer = setTimeout(() => {
         dispatch({ type: ACTIONS.tick });
