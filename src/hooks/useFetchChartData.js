@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { db } from "../firebase/firebase";
 import { collection, query, getDocs, where, orderBy } from "firebase/firestore";
 
-export const useFechChartData = (user, state, setBreakData, setPomoData, setPomos, setBreaks) => {
+export const useFetchChartData = (user, state, setBreakData, setPomoData, setPomos, setBreaks) => {
     useEffect(() => {
         const pomoDataFromDB = [];
         const breakDataFromDB = [];

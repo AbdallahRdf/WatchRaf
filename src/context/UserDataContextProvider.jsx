@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { StateContext } from "./StateContextProvider";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
-import { useFechChartData } from '../hooks/useFetchChartData';
+import { useFetchChartData } from '../hooks/useFetchChartData';
 
 export const UserDataContext = createContext();
 
@@ -16,7 +16,7 @@ export const UserDataContextProvider = ({ children }) => {
     const [pomoData, setPomoData] = useState([]);
     const [breakData, setBreakData] = useState([]);
 
-    useFechChartData(user, state, setBreakData, setPomoData, setPomos, setBreaks);
+    useFetchChartData(user, state, setBreakData, setPomoData, setPomos, setBreaks);
 
     //* check if the state.pomosCount changed, so to update the pomoData state, because it is used in stats page (chart)
     useEffect(() => {

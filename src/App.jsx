@@ -26,6 +26,19 @@ export function App() {
   //* using the 'loading' to check if the 'auth' user object is loaded so to render the page.
   const [user, loading] = useAuthState(auth);
 
+  const commonElements = (
+    <ResponsivenessContextProvider>
+      <Audios />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/stats" element={<Stats />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </ResponsivenessContextProvider>
+  );
+
   return (
     <>
       { isLoading || loading
@@ -34,18 +47,15 @@ export function App() {
         :
         <>
           <StateContextProvider>
-            <UserDataContextProvider>
-              <ResponsivenessContextProvider>
-                <Audios />
-                <Navbar />
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/stats" element={<Stats />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/login" element={<Login />} />
-                </Routes>
-              </ResponsivenessContextProvider>
-            </UserDataContextProvider>
+            {
+              user 
+              ?
+              <UserDataContextProvider>
+                { commonElements }
+              </UserDataContextProvider>
+              :
+              commonElements
+            }
           </StateContextProvider>
         </>
       }
