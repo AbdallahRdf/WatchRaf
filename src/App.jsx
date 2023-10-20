@@ -5,7 +5,7 @@ import { Stats } from "./pages/Stats";
 import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
 //* components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Spinner from "./components/Spinner"
 import Audios  from "./components/Audios";
 //* context file

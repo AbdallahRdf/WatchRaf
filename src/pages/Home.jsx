@@ -1,8 +1,10 @@
-import { TimerButton } from "../components/TimerButton";
-import { timerStyle } from "../hooks/usePomodoro";
-import { TimerCercle } from "../components/TimerCercle";
-import { ControlBtn } from "../components/ControlBtn";
 import { useContext } from "react";
+//* components
+import { TimerButton } from "../components/home/TimerButton";
+import { timerStyle } from "../hooks/usePomodoro";
+import { TimerCercle } from "../components/home/TimerCercle";
+import { ControlBtn } from "../components/home/ControlBtn";
+//*context
 import { ResponsivenessContext } from "../context/ResponsivenessContextProvider";
 
 export const Home = () => {

@@ -1,7 +1,7 @@
 import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth"
 import { auth, googleAuth } from "../firebase/firebase";
 import { useNavigate, Link } from "react-router-dom";
-import googleImg from '../img/google-logo.png';
+import googleImg from '../assets/img/google-logo.png';
 
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';

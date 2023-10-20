@@ -2,8 +2,8 @@
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
 //* components
-import { UserBarChart } from "../components/UserBarChart";
-import { NoUserBarChart } from "../components/NoUserBarChart";
+import { UserBarChart } from "../components/stats/UserBarChart";
+import { NoUserBarChart } from "../components/stats/NoUserBarChart";
 
 export const Stats = ()=>{
 
