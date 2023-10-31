@@ -27,9 +27,7 @@ export const StateContextProvider = ({ children }) => {
 
     const stopTimer = () => dispatch({ type: ACTIONS.stop });
 
-    const resetTimer = () => dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: false } });
-
-    const changeTimerType = (actionToBeDone) => dispatch({ type: ACTIONS.setTimer, payload: { timerStyle: actionToBeDone, shouldRun: false } });
+    const changeTimerType = (actionToBeDone) => dispatch({ type: ACTIONS.setTimer, payload: { timerStyle: actionToBeDone, shouldRun: false, goToPomodoro: false } });
 
     const setPomos = (count) => dispatch({ type: ACTIONS.setPomosCount, payload: { count } });
 
@@ -53,7 +51,6 @@ export const StateContextProvider = ({ children }) => {
         isPomodoro,
         changeTimerType,
         stopTimer,
-        resetTimer,
         setPomos,
         setBreaks,
     }

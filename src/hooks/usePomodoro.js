@@ -44,29 +44,22 @@ export const usePomodoro = (user) => {
           isRunning: !state.isRunning,
         };
 
-      case ACTIONS.reset:
-        //* payload.goToPomodoro: specifies which timer to show after the reset.
-        //* using stateToReturn to know which timer style to show after reseting the timer.
-        let stateToReturn;
-        if (payload.goToPomodoro || state.timerTypeTitle === pomodoro.title) {
-          stateToReturn = {
+      case ACTIONS.setTimer:
+        if (payload.goToPomodoro) {
+          return {
             ...state,
             timeRemaining: pomodoro.time,
             timerTypeTitle: pomodoro.title,
+            isRunning: false,
           };
         } else {
-          let time;
-          if (state.timerTypeTitle === shortBreak.title) {
-            time = shortBreak.time;
-          } else {
-            time = longBreak.time;
-          }
-          stateToReturn = {
+          return {
             ...state,
-            timeRemaining: time,
+            timeRemaining: payload.timerStyle.time,
+            timerTypeTitle: payload.timerStyle.title,
+            isRunning: payload.shouldRun,
           };
         }
-        return { ...stateToReturn, isRunning: false };
 
       case ACTIONS.decrement:
         //* ACTIONS.decrement: it is used when we switch to another tab on the browser, the timer stops, when back
@@ -75,14 +68,6 @@ export const usePomodoro = (user) => {
           ...state,
           timeRemaining: state.timeRemaining - payload.passedTime,
           isRunning: true,
-        };
-
-      case ACTIONS.setTimer:
-        return {
-          ...state,
-          timeRemaining: payload.timerStyle.time,
-          timerTypeTitle: payload.timerStyle.title,
-          isRunning: payload.shouldRun,
         };
 
       case ACTIONS.incrementPomoCount:
@@ -130,6 +115,7 @@ export const usePomodoro = (user) => {
     let timerID;
 
     if ( state.timeRemaining >= 0 && state.isRunning ) {
+
       //* each second decrement the timer;
       timerID = setTimeout(() => {
         dispatch({ type: ACTIONS.decrement, payload: { passedTime: 1 } });
@@ -149,7 +135,10 @@ export const usePomodoro = (user) => {
 
         user && dispatch({ type: ACTIONS.incrementBreakCount });
         
-        dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
+        dispatch({
+          type: ACTIONS.setTimer,
+          payload: { goToPomodoro: true },
+        });
       }
       user && updateTodayDoc(state, todayDocId, timerStyle);
     }
@@ -157,6 +146,7 @@ export const usePomodoro = (user) => {
     return () => clearTimeout(timerID);
   }, [state]);
 
+  //* handles the timer logic when we leave the tab;
   useTimerHidden(state, dispatch);
 
   return [state, dispatch, pomodoro.title === state.timerTypeTitle];
