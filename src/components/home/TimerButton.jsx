@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { timerStyle } from "../../hooks/usePomodoro";
 import { StateContext } from "../../context/StateContextProvider";
+import { getTimerType } from "../../util/timerType";
 
 export const TimerButton = ({ pomo }) => {
     const {state, changeTimerType} = useContext(StateContext);
@@ -14,14 +15,8 @@ export const TimerButton = ({ pomo }) => {
         actionTitle = timerStyle.longBreak.title;
     }
 
-    let actionToBeDone;
-    if(actionTitle === timerStyle.pomodoro.title){
-        actionToBeDone = timerStyle.pomodoro;
-    } else if (actionTitle === timerStyle.shortBreak.title){
-        actionToBeDone = timerStyle.shortBreak;
-    } else {
-        actionToBeDone = timerStyle.longBreak;
-    }
+    const actionToBeDone = getTimerType(actionTitle);
+    
   return (
       <button
           className={actionTitle === state.timerTypeTitle ? "select-btn selected-btn" : "select-btn"}

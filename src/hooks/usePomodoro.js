@@ -23,12 +23,11 @@ export const timerStyle = {
 export const ACTIONS = {
   stop: "stop the timer",
   decrement: "decrement an amount of time from the timer",
-  reset: "reset the timer",
   incrementPomoCount: "increment pomodoro count",
   incrementBreakCount: "increment Break Count",
   setPomosCount: "set pomodoros Count",
   setBreakCount: "set Breaks Count",
-  setTimer: "set the timer",
+  setTimer: "set/reset the timer",
 };
 
 export const usePomodoro = (user) => {
@@ -52,14 +51,13 @@ export const usePomodoro = (user) => {
             timerTypeTitle: pomodoro.title,
             isRunning: false,
           };
-        } else {
-          return {
-            ...state,
-            timeRemaining: payload.timerStyle.time,
-            timerTypeTitle: payload.timerStyle.title,
-            isRunning: payload.shouldRun,
-          };
         }
+        return {
+          ...state,
+          timeRemaining: payload.timerStyle.time,
+          timerTypeTitle: payload.timerStyle.title,
+          isRunning: payload.shouldRun,
+        };
 
       case ACTIONS.decrement:
         //* ACTIONS.decrement: it is used when we switch to another tab on the browser, the timer stops, when back
