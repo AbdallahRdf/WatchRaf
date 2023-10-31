@@ -10,7 +10,7 @@ const Audios = () => {
     const breaksAudioRef = useRef();
 
     useEffect(() => {
-        if(state.timeRemaining === 0){
+        if(state.timeRemaining <= 0){
             if(isPomodoro){
                 pomoAudioRef.current.play();
             }else{
@@ -20,10 +20,10 @@ const Audios = () => {
     }, [state.timeRemaining]);
 
   return (
-    <div>
-          <audio ref={pomoAudioRef} className="d-hidden" src={pomoTimerSoundFile} preload="auto"></audio>
-          <audio ref={breaksAudioRef} className="d-hidden" src={breakTimeSoundFile} preload="auto"></audio>
-    </div>
+    <>
+        <audio ref={pomoAudioRef} className="d-hidden" src={pomoTimerSoundFile} preload="auto"></audio>
+        <audio ref={breaksAudioRef} className="d-hidden" src={breakTimeSoundFile} preload="auto"></audio>
+    </>
   )
 }
 

@@ -19,11 +19,7 @@ export const NavElements = () => {
         <ul className={className}>
             <NavLink path='/' linkTitle='Home' />
             <NavLink path='/stats' linkTitle='Stats' />
-            {user ? (
-                <Logout />
-            ) : (
-                <NavLink path='/signup' linkTitle='Sign-up' />
-            )}
+            {user ? (<Logout />) : (<NavLink path='/signup' linkTitle='Sign-up' />)}
         </ul>
     )
 }

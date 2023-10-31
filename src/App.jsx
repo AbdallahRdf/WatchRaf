@@ -27,7 +27,7 @@ export function App() {
   const [user, loading] = useAuthState(auth);
 
   const commonElements = (
-    <ResponsivenessContextProvider>
+    <>
       <Audios />
       <Navbar />
       <Routes>
@@ -36,7 +36,7 @@ export function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-    </ResponsivenessContextProvider>
+    </>
   );
 
   return (
@@ -45,7 +45,7 @@ export function App() {
         ?
         <Spinner />
         :
-        <>
+        <ResponsivenessContextProvider>
           <StateContextProvider>
             {
               user 
@@ -57,7 +57,7 @@ export function App() {
               commonElements
             }
           </StateContextProvider>
-        </>
+        </ResponsivenessContextProvider>
       }
     </>
   )
