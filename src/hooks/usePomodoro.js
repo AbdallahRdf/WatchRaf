@@ -6,41 +6,38 @@ import { useTimerHidden } from "./useTimerHidden";
 //* creating an object that holds the three types of timers and their time in seconds.
 export const timerStyle = {
   pomodoro: {
-    time: 25 * 60,
+    time: 25,
     title: "Pomodoro",
   },
   shortBreak: {
-    time: 5 * 60,
+    time: 5,
     title: "Short Break",
   },
   longBreak: {
-    time: 15 * 60,
+    time: 15,
     title: "Long Break",
   },
 };
 
 //* creating ACTIONS object to store all the types of actions that are related to the timer
 export const ACTIONS = {
-  stop: "stop",
-  tick: "tick",
-  decrement: "decrement",
-  reset: "reset",
+  stop: "stop the timer",
+  decrement: "decrement an amount of time from the timer",
+  reset: "reset the timer",
   incrementPomoCount: "increment pomodoro count",
   incrementBreakCount: "increment Break Count",
   setPomosCount: "set pomodoros Count",
   setBreakCount: "set Breaks Count",
-  setTimer : "set the timer"
+  setTimer: "set the timer",
 };
 
 export const usePomodoro = (user) => {
-
   //* destructuring of the timerStyle object to avoid repetitive and long syntax.
   const { pomodoro, shortBreak, longBreak } = timerStyle;
 
   //* reducer function for the useReducer hook.
   const reducer = (state, { type, payload }) => {
     switch (type) {
-
       case ACTIONS.stop:
         return {
           ...state,
@@ -59,7 +56,7 @@ export const usePomodoro = (user) => {
           };
         } else {
           let time;
-          if (state.timerTypeTitle === shortBreak.title){
+          if (state.timerTypeTitle === shortBreak.title) {
             time = shortBreak.time;
           } else {
             time = longBreak.time;
@@ -69,13 +66,7 @@ export const usePomodoro = (user) => {
             timeRemaining: time,
           };
         }
-        return {...stateToReturn, isRunning: false};
-
-      case ACTIONS.tick:
-        return {
-          ...state,
-          timeRemaining: state.timeRemaining - 1,
-        };
+        return { ...stateToReturn, isRunning: false };
 
       case ACTIONS.decrement:
         //* ACTIONS.decrement: it is used when we switch to another tab on the browser, the timer stops, when back
@@ -101,7 +92,7 @@ export const usePomodoro = (user) => {
         };
 
       case ACTIONS.incrementBreakCount:
-        const timeToAdd = state.timerTypeTitle == shortBreak.title ? 5 : 15;
+        const timeToAdd = state.timerTypeTitle === shortBreak.title ? 5 : 15;
         return {
           ...state,
           breakCount: state.breakCount + timeToAdd,
@@ -118,12 +109,13 @@ export const usePomodoro = (user) => {
           ...state,
           breakCount: payload.count,
         };
-        
+
       default:
         throw new Error(`Unhandled action type: ${type}`);
     }
   };
 
+  //* the default timer to show is pomodoro;
   const [state, dispatch] = useReducer(reducer, {
     timeRemaining: pomodoro.time,
     isRunning: false,
@@ -135,33 +127,37 @@ export const usePomodoro = (user) => {
   const todayDocId = useTodayDoc(user, state);
 
   useEffect(() => {
-    let timer;
+    let timerID;
 
-    if (
-      state.timeRemaining >= 0 &&
-      state.isRunning 
-      &&
-      document.visibilityState === "visible"
-    ) {
-      timer = setTimeout(() => {
-        dispatch({ type: ACTIONS.tick });
+    if ( state.timeRemaining >= 0 && state.isRunning ) {
+      //* each second decrement the timer;
+      timerID = setTimeout(() => {
+        dispatch({ type: ACTIONS.decrement, payload: { passedTime: 1 } });
       }, 1000);
+
     } else if (state.timeRemaining < 0) {
       if (pomodoro.title === state.timerTypeTitle) {
+
         user && dispatch({ type: ACTIONS.incrementPomoCount });
-        // dispatch({ type: shortBreak.title, payload: { shouldRun: true } });
-        dispatch({ type: ACTIONS.setTimer, payload: { timerStyle: shortBreak, shouldRun: true } });
+
+        dispatch({
+          type: ACTIONS.setTimer,
+          payload: { timerStyle: shortBreak, shouldRun: true },
+        });
+
       } else {
+
         user && dispatch({ type: ACTIONS.incrementBreakCount });
+        
         dispatch({ type: ACTIONS.reset, payload: { goToPomodoro: true } });
       }
       user && updateTodayDoc(state, todayDocId, timerStyle);
     }
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timerID);
   }, [state]);
 
   useTimerHidden(state, dispatch);
 
-  return [state, dispatch, pomodoro.title === state.timerTypeTitle];  
-}
+  return [state, dispatch, pomodoro.title === state.timerTypeTitle];
+};
