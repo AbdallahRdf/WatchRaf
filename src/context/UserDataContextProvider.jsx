@@ -12,7 +12,7 @@ export const UserDataContextProvider = ({ children }) => {
 
     const [user] = useAuthState(auth);
 
-    //* will contain the chart data for the user in the last 28 days
+    //* pomoData & breakData will contain the chart data for the user in the last 28 days.
     const [pomoData, setPomoData] = useState([]);
     const [breakData, setBreakData] = useState([]);
 

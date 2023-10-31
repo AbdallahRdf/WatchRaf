@@ -106,7 +106,7 @@ export const usePomodoro = (user) => {
     pomosCount: 0,
     breakCount: 0,
   });
-
+  
   const todayDocId = useTodayDoc(user, state);
 
   useEffect(() => {

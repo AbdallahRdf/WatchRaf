@@ -11,38 +11,37 @@ export const useTodayDoc = (user, state) => {
       //* it checks if there is a doc with today's date and returns it
       const getTodayDoc = async () => {
         try {
-          if (user) {
-            const todayDate = new Date();
-            todayDate.setHours(0, 0, 0, 0);
+          const todayDate = new Date();
+          todayDate.setHours(0, 0, 0, 0);
 
-            const queryRef = query(
-              chartCollection,
-              where("uid", "==", user.uid),
-              where("timestamp", ">=", todayDate)
-            );
-            const todayDoc = await getDocs(queryRef);
-            const formattedTodayDoc = todayDoc.docs.map((doc) => ({
-              ...doc.data(),
-              id: doc.id,
-            }));
-            return formattedTodayDoc;
-          }
+          const queryRef = query(
+            chartCollection,
+            where("uid", "==", user.uid),
+            where("timestamp", ">=", todayDate)
+          );
+          const todayDoc = await getDocs(queryRef);
+          const formattedTodayDoc = todayDoc.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          return formattedTodayDoc;
+
         } catch (error) {
           console.error("Error fetching today's document:", error);
         }
       };
 
-      //* if there is no today's doc it creates it and returns it id;
+      //* if there is no today's doc it creates it and returns its id;
       const createTodayDoc = async () => {
         try {
           if (user) {
             const todayDoc = await getTodayDoc();
             if (todayDoc.length === 0) {
                 const dataToAdd = {
-                breakCount: state.breakCount,
-                pomodoroCount: state.pomosCount,
-                timestamp: new Date(),
-                uid: user.uid,
+                  breakCount: state.breakCount,
+                  pomodoroCount: state.pomosCount,
+                  timestamp: new Date(),
+                  uid: user.uid,
                 };
                 const docRef = await addDoc(chartCollection, dataToAdd);
                 setTodayDocId(docRef.id)
@@ -57,6 +56,6 @@ export const useTodayDoc = (user, state) => {
 
       createTodayDoc();
     }, [user]);
-
+    //* returing today's document id,
     return todayDocId;
 }
