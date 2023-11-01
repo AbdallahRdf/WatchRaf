@@ -2,6 +2,7 @@ import { useReducer, useEffect } from "react";
 import { useTodayDoc } from "./useTodayDoc";
 import { updateTodayDoc } from "./useUpdateTodayDoc";
 import { useTimerHidden } from "./useTimerHidden";
+import { timeFormatter } from "../util/timeFormatter";
 
 //* creating an object that holds the three types of timers and their time in seconds.
 export const timerStyle = {
@@ -147,6 +148,15 @@ export const usePomodoro = (user) => {
 
   //* handles the timer logic when we leave the tab;
   useTimerHidden(state, dispatch);
+
+  //* shows the time in the document title;
+  useEffect(()=>{
+    if(state.isRunning){
+      document.title = `${timeFormatter(state.timeRemaining)} - Pomoraf`;
+    } else {
+      document.title = `Pomoraf`;
+    }
+  }, [state.timeRemaining])
 
   return [state, dispatch, pomodoro.title === state.timerTypeTitle];
 };

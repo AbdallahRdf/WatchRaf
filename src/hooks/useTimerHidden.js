@@ -15,9 +15,9 @@ export const useTimerHidden = (state, dispatch) => {
   }
 
   const checkIfTimerIsUp = () => {
-    const timerID = setInterval(() => {
+    const intervalId = setInterval(() => {
       if (document.visibilityState === "visible") {
-        clearInterval(timerID); // Clear the interval when the tab becomes visible.
+        clearInterval(intervalId); // Clear the interval when the tab becomes visible.
       }
 
       const passedTime = getPassedTime();
@@ -28,7 +28,7 @@ export const useTimerHidden = (state, dispatch) => {
           payload: { passedTime: state.timeRemaining },
         });
         setIsTimerInBackground(false);
-        clearInterval(timerID);
+        clearInterval(intervalId);
       }
     }, 1000);
   }
