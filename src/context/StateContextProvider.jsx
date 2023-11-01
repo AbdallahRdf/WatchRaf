@@ -46,6 +46,12 @@ export const StateContextProvider = ({ children }) => {
         return () => window.removeEventListener("beforeunload", handleBeforeUnload);
     }, [state.isRunning]); 
 
+    // useEffect(()=>{
+    //     if(state.isRunnig){
+    //         document.title = `${state.timeRemaining} - Pomoraf`;
+    //     }
+    // }, [state.isRunnig, state.timeRemaining])
+
     const store = {
         state,
         isPomodoro,
