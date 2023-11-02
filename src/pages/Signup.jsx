@@ -1,14 +1,17 @@
 import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth"
 import { auth, googleAuth } from "../firebase/firebase";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+//* components
 import FormAlert from "../components/form/FormAlert";
 import Input from "../components/form/Input";
 import GoogleButton from "../components/form/GoogleButton";
+import FormHeader from "../components/form/FormHeader";
+import FormFooter from "../components/form/FormFooter";
 
 export const Signup = () => {
 
@@ -79,10 +82,9 @@ export const Signup = () => {
 
     return (
         <div className="wrapper wrapper-width">
-            <div>
-                <Link to="/" className="logo" >Pomoraf</Link>
-                <p className="grey-signup-text mt-2">Create Account</p>
-            </div>
+
+            <FormHeader title="Create Account" />
+
             <div className="form-wrapper">
 
                 { signupError && <FormAlert /> }
@@ -97,10 +99,7 @@ export const Signup = () => {
                     <input className="signup-btn" type="submit" value="Sign up" />
                 </form>
             </div>
-            <div className="mt-4 w-100 text-center">
-                <p className="m-0 text-dark-emphasis">Already have an account?</p>
-                <Link to="/login" className="text-black-50 fw-semibold" >Log in</Link>
-            </div>
+            <FormFooter title="Already have an account?" link="/login" linkTitle="Log in" />
         </div>
     )
 }
