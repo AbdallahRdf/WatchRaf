@@ -1,7 +1,6 @@
 import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth"
 import { auth, googleAuth } from "../firebase/firebase";
 import { useNavigate, Link } from "react-router-dom";
-import googleImg from '../assets/img/google-logo.png';
 
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -9,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import FormAlert from "../components/form/FormAlert";
 import Input from "../components/form/Input";
+import GoogleButton from "../components/form/GoogleButton";
 
 export const Signup = () => {
 
@@ -87,10 +87,8 @@ export const Signup = () => {
 
                 { signupError && <FormAlert /> }
 
-                <button className="google-signup-btn mb-3" onClick={signupWithGoogle}>
-                    <img className="google-logo" src={googleImg} alt="google logo" />
-                    Signup with Google
-                </button>
+                <GoogleButton title="Signup with Google" handleClick={signupWithGoogle} />
+
                 <p className="or-line" >or</p>
                 <form onSubmit={handleSubmit(createUser)} className="w-100">
 

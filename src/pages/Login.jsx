@@ -10,6 +10,7 @@ import { useState } from "react";
 
 import FormAlert from "../components/form/FormAlert";
 import Input from "../components/form/Input";
+import GoogleButton from "../components/form/GoogleButton";
 
 export const Login = () => {
 
@@ -69,7 +70,6 @@ export const Login = () => {
 
     const inputs = inputsProps.map(({ label, id }) => <Input key={id} label={label} type={id} id={id} register={register} errors={errors} />);
 
-
     return (
         <div className="wrapper wrapper-width">
             <div>
@@ -80,10 +80,8 @@ export const Login = () => {
 
                 {loginError && <FormAlert /> }
 
-                <button className="google-signup-btn  mb-3" onClick={loginWithGoogle}>
-                    <img className="google-logo" src={googleImg} alt="google logo" />
-                    Login with Google
-                </button>
+                <GoogleButton title="Login with Google" handleClick={loginWithGoogle} />
+
                 <p className="or-line" >or</p>
                 <form onSubmit={handleSubmit(loginUser)} className="w-100">
 
