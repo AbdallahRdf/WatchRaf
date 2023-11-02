@@ -7,6 +7,8 @@ import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import FormAlert from "../components/form/FormAlert";
+import Input from "../components/form/Input";
 
 export const Signup = () => {
 
@@ -54,6 +56,26 @@ export const Signup = () => {
         }
     }
 
+    //* array containing all the props of that we will pass to the Input component
+    const inputsProps = [
+        {
+            label: "Email",
+            type: "email",
+            id: "email"
+        },
+        {
+            label: "Password",
+            type: "password",
+            id: "password"
+        },
+        {
+            label: "Confirm password",
+            type: "password",
+            id: "confirmPassword"
+        }
+    ];
+
+    const inputs = inputsProps.map( ({label, type, id}) => <Input key={id} label={label} type={type} id={id} register={register} errors={errors} /> );
 
     return (
         <div className="wrapper wrapper-width">
@@ -62,51 +84,18 @@ export const Signup = () => {
                 <p className="grey-signup-text mt-2">Create Account</p>
             </div>
             <div className="form-wrapper">
-                {signupError &&
-                    <div className="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
-                        <div>
-                            An error occurred while signing up. Please try again later.
-                        </div>
-                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                }
+
+                { signupError && <FormAlert /> }
+
                 <button className="google-signup-btn mb-3" onClick={signupWithGoogle}>
                     <img className="google-logo" src={googleImg} alt="google logo" />
                     Signup with Google
                 </button>
                 <p className="or-line" >or</p>
                 <form onSubmit={handleSubmit(createUser)} className="w-100">
-                    <div className="w-100 mt-2 mb-3">
-                        <label className="form-label text-body-tertiary" htmlFor="email">Email</label>
-                        <input
-                            className="form-control mb-1"
-                            type="email"
-                            id="Email"
-                            placeholder="example@mail.com"
-                            {...register('email')}
-                        />
-                        <small className="text-danger">{errors.email?.message}</small>
-                    </div>
-                    <div className="w-100 mb-3">
-                        <label className="form-label text-body-tertiary" htmlFor="password">Password</label>
-                        <input
-                            className="form-control mb-1"
-                            type="password"
-                            id="password"
-                            {...register('password')}
-                        />
-                        <small className="text-danger">{errors.password?.message}</small>
-                    </div>
-                    <div className="w-100 mb-3">
-                        <label className="form-label text-body-tertiary" htmlFor="confirmPassword">Confirm your password</label>
-                        <input
-                            className="form-control mb-1"
-                            type="password"
-                            id="confirmPassword"
-                            {...register('confirmPassword')}
-                        />
-                        <small className="text-danger">{errors.confirmPassword?.message}</small>
-                    </div>
+
+                    { inputs }
+                    
                     <input className="signup-btn" type="submit" value="Sign up" />
                 </form>
             </div>

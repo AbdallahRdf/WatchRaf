@@ -8,6 +8,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
+import FormAlert from "../components/form/FormAlert";
+import Input from "../components/form/Input";
+
 export const Login = () => {
 
     const [loginError, setLoginError] = useState(false);
@@ -51,6 +54,21 @@ export const Login = () => {
         }
     }
 
+    //* array containing all the props of that we will pass to the Input component;
+    //* NB: the type and the id are the same
+    const inputsProps = [
+        {
+            label: "Email",
+            id: "email"
+        },
+        {
+            label: "Password",
+            id: "password"
+        }
+    ];
+
+    const inputs = inputsProps.map(({ label, id }) => <Input key={id} label={label} type={id} id={id} register={register} errors={errors} />);
+
 
     return (
         <div className="wrapper wrapper-width">
@@ -59,41 +77,18 @@ export const Login = () => {
                 <p className="grey-signup-text mt-2">Login</p>
             </div>
             <div className="form-wrapper">
-                {loginError &&
-                    <div className="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
-                        <div>
-                            An error occurred while Logging in. Please try again later.
-                        </div>
-                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                }
+
+                {loginError && <FormAlert /> }
+
                 <button className="google-signup-btn  mb-3" onClick={loginWithGoogle}>
                     <img className="google-logo" src={googleImg} alt="google logo" />
                     Login with Google
                 </button>
                 <p className="or-line" >or</p>
                 <form onSubmit={handleSubmit(loginUser)} className="w-100">
-                    <div className="w-100 mt-2 mb-3">
-                        <label className="form-label text-body-tertiary" htmlFor="email">Email</label>
-                        <input
-                            className="form-control mb-1"
-                            type="email"
-                            id="Email"
-                            placeholder="example@mail.com"
-                            {...register('email')}
-                        />
-                        <small className="text-danger">{errors.email?.message}</small>
-                    </div>
-                    <div className="w-100  mb-3">
-                        <label className="form-label text-body-tertiary" htmlFor="password">Password</label>
-                        <input
-                            className="form-control mb-1"
-                            type="password"
-                            id="password"
-                            {...register('password')}
-                        />
-                        <small className="text-danger">{errors.password?.message}</small>
-                    </div>
+
+                    { inputs }
+
                     <input className="signup-btn" type="submit" value="Log in with email" />
                 </form>
             </div>
