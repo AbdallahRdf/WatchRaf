@@ -63,7 +63,6 @@ export const usePomodoro = (user) => {
       case ACTIONS.decrement:
         //* ACTIONS.decrement: it is used when we switch to another tab on the browser, the timer stops, when back
         //* substruct the amount of passed time.
-        console.log("in usePomodoro hook: "+payload.passedTime);
         return {
           ...state,
           timeRemaining: state.timeRemaining - payload.passedTime,
@@ -147,7 +146,7 @@ export const usePomodoro = (user) => {
   }, [state]);
 
   //* handles the timer logic when we leave the tab;
-  useTimerHidden(state, dispatch);
+  // useTimerHidden(state, dispatch);
 
   //* shows the time in the document title;
   useEffect(()=>{

@@ -16,7 +16,7 @@ const Navbar = () => {
     }
 
     return (
-        <header>
+        <>
             <nav className="nav">
                 <div>
                     <Link to="/" className="logo" >Pomoraf</Link>
@@ -35,7 +35,7 @@ const Navbar = () => {
                 }
             </nav>
             { isScreenSmall && <NavElements />}
-        </header>
+        </>
     );
 };
 

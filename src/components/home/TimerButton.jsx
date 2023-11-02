@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { timerStyle } from "../../hooks/usePomodoro";
 import { StateContext } from "../../context/StateContextProvider";
-import { getTimerType } from "../../util/timerType";
+import { getTimerType } from "../../util/getTimerType";
 
 export const TimerButton = ({ pomo }) => {
     const {state, changeTimerType} = useContext(StateContext);

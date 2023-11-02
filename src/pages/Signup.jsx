@@ -96,7 +96,7 @@ export const Signup = () => {
 
                     { inputs }
                     
-                    <input className="signup-btn" type="submit" value="Sign up" />
+                    <input className="signup-btn" type="submit" value="Sign up with email" />
                 </form>
             </div>
             <FormFooter title="Already have an account?" link="/login" linkTitle="Log in" />

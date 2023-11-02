@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { StateContext } from "../../context/StateContextProvider";
-import { getTimerType } from "../../util/timerType";
+import { getTimerType } from "../../util/getTimerType";
 
 export const ControlBtn = ({isResetBtn}) => {
 
