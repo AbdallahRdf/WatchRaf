@@ -101,6 +101,7 @@ export const usePomodoro = (user) => {
 
   //* the default timer to show is pomodoro;
   const [state, dispatch] = useReducer(reducer, {
+    startingTime: null,
     timeRemaining: pomodoro.time,
     isRunning: false,
     timerTypeTitle: pomodoro.title,

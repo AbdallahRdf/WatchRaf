@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ACTIONS } from "./usePomodoro";
+import { timeFormatter } from "../util/timeFormatter";
 
 /*
   useTimerHidden: this custom hook stops the timer, and starts counting how many seconds passes when
@@ -8,10 +9,11 @@ import { ACTIONS } from "./usePomodoro";
 */
 export const useTimerHidden = (state, dispatch) => {
   const [isTimerInBackground, setIsTimerInBackground] = useState(false);
-  let theStartTime;
+  const [theStartTime, setTheStartTime] = useState(null);
+  const theStartTimeRef = useRef(theStartTime);
 
   const getPassedTime = () => {
-    return Math.round((new Date() - theStartTime) / 1000);
+    return Math.round((new Date() - theStartTimeRef.current) / 1000);
   }
 
   const checkIfTimerIsUp = () => {
@@ -21,7 +23,7 @@ export const useTimerHidden = (state, dispatch) => {
       }
 
       const passedTime = getPassedTime();
-      console.log("in hidden, passedTime: " + passedTime);
+      console.log("in checkIfTimerIsUp, passedTime: " + passedTime);
       if (passedTime >= state.timeRemaining) {
         dispatch({
           type: ACTIONS.decrement,
@@ -35,19 +37,24 @@ export const useTimerHidden = (state, dispatch) => {
 
   const handleIfVisible = () => {
     const passedTime = getPassedTime();
-    console.log("in visibile, passedTime: " + passedTime);
+    console.log("in handleIfVisible, passedTime: " + passedTime);
     dispatch({ type: ACTIONS.decrement, payload: { passedTime } });
     setIsTimerInBackground(false);
   }
 
   const handleIfHidden = () => {
-    theStartTime = new Date();
+    // theStartTime = new Date();
+    setTheStartTime(new Date());
     dispatch({ type: ACTIONS.stop }); // Stop the timer.
     setIsTimerInBackground(true); // Indicate that the timer is running in the background.
 
     // Check if the timer reaches 0.
     checkIfTimerIsUp();
   }
+
+  useEffect(()=>{
+    theStartTimeRef.current = theStartTime;
+  })
 
   useEffect(() => {
 
