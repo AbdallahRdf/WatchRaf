@@ -40,15 +40,15 @@ Follow these instructions to set up and run Pomoraf on your local machine.
 3. Obtain your Firebase configuration details.
 
 ### Environment Variables
-Create a .env file in the project root and add your Firebase configuration using the Vite format:
+Create a .env file in the project root and add your Firebase configuration using the CRA format:
 
       ```bash 
-      VITE_POMORAF_API_KEY=your-api-key
-      VITE_POMORAF_AUTH_DOMAIN=your-auth-domain
-      VITE_POMORAF_PROJECT_ID=your-project-id
-      VITE_POMORAF_STORAGE_BUCKET=your-storage-bucket
-      VITE_POMORAF_MESSAGING_SENDER_ID=your-messaging-sender-id
-      VITE_POMORAF_APP_ID=your-app-id
+      REACT_APP_POMORAF_API_KEY=your-api-key
+      REACT_APP_POMORAF_AUTH_DOMAIN=your-auth-domain
+      REACT_APP_POMORAF_PROJECT_ID=your-project-id
+      REACT_APP_POMORAF_STORAGE_BUCKET=your-storage-bucket
+      REACT_APP_POMORAF_MESSAGING_SENDER_ID=your-messaging-sender-id
+      REACT_APP_POMORAF_APP_ID=your-app-id
     
 ### Start the Development Server
 Run the following command to start the development server:
