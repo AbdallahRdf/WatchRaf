@@ -7,15 +7,15 @@ import { timeFormatter } from "../util/timeFormatter";
 //* creating an object that holds the three types of timers and their time in seconds.
 export const timerStyle = {
   pomodoro: {
-    time: 25,
+    time: 25*60,
     title: "Pomodoro",
   },
   shortBreak: {
-    time: 5,
+    time: 5*60,
     title: "Short Break",
   },
   longBreak: {
-    time: 15,
+    time: 15*60,
     title: "Long Break",
   },
 };
@@ -30,6 +30,12 @@ export const ACTIONS = {
   setBreakCount: "set Breaks Count",
   setTimer: "set/reset the timer",
 };
+
+/**
+ * 
+ * @param user user object or it could be null if there is no user
+ * @returns Array - An array containing the timer state, a dispatch function, and a boolean indicating if it's a Pomodoro timer.
+ */
 
 export const usePomodoro = (user) => {
   //* destructuring of the timerStyle object to avoid repetitive and long syntax.
